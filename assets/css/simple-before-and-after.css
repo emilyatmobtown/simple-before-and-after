@@ -1,0 +1,44 @@
+.sba-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 50px;
+}
+
+.sba-grid-item-wrapper {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.sba-grid-item {
+    border: 10px solid #161616;
+    position: relative;
+}
+
+.sba-grid-item img {
+    width: 100%;
+    transition: opacity 0.3s ease;
+}
+
+.sba-grid-item:hover img {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.sba-grid-item:hover:after {
+    content: url('../img/icon-swap.svg');
+    width: 60px;
+    height: 60px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@media screen and (min-width: 980px) {
+    .sba-grid-item-wrapper {
+        width: 48%;
+    }
+}

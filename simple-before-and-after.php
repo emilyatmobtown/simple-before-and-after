@@ -15,6 +15,8 @@
 
 defined( 'ABSPATH' ) or die( 'Nope!' );
 
+include( plugin_dir_path( __FILE__ ) . 'inc/simple-before-and-after-shortcode.php' );
+
 if ( ! class_exists( 'Simple_Before_And_After' ) ) {
     class Simple_Before_And_After {
         private $total_posts_to_show;
@@ -41,7 +43,7 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         }
 
         public function enqueue_scripts() {
-
+            wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). '/assets/css/simple-before-and-after.css' );
         }
 
         public function enqueue_admin_scripts() {
@@ -115,7 +117,7 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         public function add_before_and_after_meta_boxes() {
             add_meta_box(
                 'before_and_after_meta_box',
-                'Before and After Information',
+                'Before and After Images',
                 array( $this, 'show_before_and_after_meta_box' ),
                 'before_and_after',
                 'normal',
@@ -134,12 +136,12 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
             <div class="field-container">
                 <div class="field">
                     <label for="sba_before_img"><?php _e( 'Before', 'simple-before-and-after' )?></label><br>
-                    <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_attr( $before_img ); ?>"><br>
+                    <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_img ); ?>"><br>
                     <button type="button" class="button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img"><?php _e( 'Upload Image', 'simple-before-and-after' )?></button>
                 </div><br>
                 <div class="field">
                     <label for="sba_after_img"><?php _e( 'After', 'simple-before-and-after' )?></label><br>
-                    <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_attr( $after_img ); ?>"><br>
+                    <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_img ); ?>"><br>
                     <button type="button" class="button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img"><?php _e( 'Upload Image', 'simple-before-and-after' )?></button>
                 </div>
             </div>
@@ -147,25 +149,23 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         }
 
         public function save_before_and_after( $post_id ) {
-            echo "vv";
             //check for nonce
             if( ! isset( $_POST['before_and_after_nonce_field'] ) ) {
                 return $post_id;
             }
-            echo "ww";
+
             //verify nonce
             if( ! wp_verify_nonce( $_POST['before_and_after_nonce_field'], basename( __FILE__) ) ) {
                 return $post_id;
             }
-            echo "yy";
+
             //check for autosave
             if( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
                 return $post_id;
             }
-            echo "zz";
 
-            $before_img = get_post_meta( $post_id, 'sba_before_img', true );
-            $after_img = get_post_meta( $post_id, 'sba_after_img', true );
+            $before_img = isset( $_POST['sba_before_img'] ) ? sanitize_url( $_POST['sba_before_img'] ) : '';
+            $after_img = isset( $_POST['sba_after_img'] ) ? sanitize_url( $_POST['sba_after_img'] ) : '';
 
             update_post_meta( $post_id, 'sba_before_img', $before_img );
             update_post_meta( $post_id, 'sba_after_img', $after_img );
@@ -174,13 +174,13 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         public function get_before_and_after_grid( $args = '' ) {
             $default_args = array(
                 'before_and_after_id'           => '',
-                'number_of_before_and_afters'   => $this->sba_total_posts_to_show
+                'number_of_before_and_afters'   => $this->total_posts_to_show
             );
 
             if( ! empty( $args ) && is_array( $args ) ) {
                 foreach( $args as $arg_key => $arg_value ) {
                     if( array_key_exists( $arg_key, $default_args ) ){
-                        $default_args[$arg_key] = $arg_val;
+                        $default_args[$arg_key] = $arg_value;
                     }
                 }
             }
@@ -199,29 +199,36 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
             }
 
             $html = '';
-            $before_and_afters = new WP_Query( $query_args );
+            $ba_query = new WP_Query( $query_args );
 
-            if( ! empty( $before_and_afters ) ) {
-                $html .= '<div class="sba-grid-wrapper">';
+            if( $ba_query->have_posts() ) {
+                $html .= '<div class="sba-grid">';
 
-                    foreach ( $before_and_afters as $before_and_after ) {
+                    while ( $ba_query->have_posts() ) {
+                        $html .= '<div class="sba-grid-item-wrapper">';
                         $html .= '<div class="sba-grid-item">';
 
-                        $sba_id = $before_and_after->ID;
-                        $sba_before_url = get_post_meta( $sba_id, 'sba_before_img', true );
+                        $ba_query->the_post();
+                        $ba_id = $ba_query->post->ID;
+                        $ba_before_url = get_post_meta( $ba_id, 'sba_before_img', true );
 
-                        if( ! empty( $sba_before_url ) ) {
-                            $sba_before_id = attachment_url_to_postid( $sba_before_url );
-                            $html .= wp_get_attachment_image( $sba_before_id, array( '465', '180' ), false, array( 'class' => 'sba-grid-item-before-img' ) );
+                        if( ! empty( $ba_before_url ) ) {
+                            $ba_before_id = attachment_url_to_postid( $ba_before_url );
+                            $html .= wp_get_attachment_image( $ba_before_id, array( '485', '200' ), false, array( 'class' => 'sba-grid-item-before-img' ) );
                         }
 
                         $html .= '</div>'; // .sba-grid-item
+                        $html .= '</div>'; // .sba-grid-item-wrapper
                     }
 
                 $html .= '</div>'; // .sba-grid-wrapper
             }
+
+            wp_reset_postdata();
+
+            return $html;
         }
     }
-}
 
-$simple_before_and_after = new Simple_Before_And_After;
+    $simple_before_and_after = new Simple_Before_And_After;
+}
