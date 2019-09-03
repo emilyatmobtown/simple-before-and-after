@@ -43,15 +43,21 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         }
 
         public function enqueue_scripts() {
-            wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). '/assets/css/simple-before-and-after.css' );
+            $css_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'assets/css/simple-before-and-after.css' ) );
+            $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'assets/js/frontend/simple-before-and-after.js' ) );
+
+            wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). 'assets/css/simple-before-and-after.css' , array(), $css_ver );
+            wp_enqueue_script( 'sba-swapper', plugin_dir_url( __FILE__ ). 'assets/js/frontend/simple-before-and-after.js', array(), $js_ver, true );
         }
 
         public function enqueue_admin_scripts() {
             global $typenow;
 
-    		if( $typenow == 'before_and_after' ) {
+    		if( $typenow === 'before_and_after' ) {
+                $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'assets/js/admin/sba-media.js' ) );
+
     			wp_enqueue_media();
-    			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . '/assets/js/sba-media.js', array( 'jquery' ) );
+    			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . 'assets/js/admin/sba-media.js', array( 'jquery' ), $js_ver );
     			wp_localize_script( 'sba-meta-box-image-loader', 'meta_image',
     				array(
     					'title'        => __( 'Choose or Upload Media', 'simple-before-and-after' ),
@@ -211,10 +217,18 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                         $ba_query->the_post();
                         $ba_id = $ba_query->post->ID;
                         $ba_before_url = get_post_meta( $ba_id, 'sba_before_img', true );
+                        $ba_after_url = get_post_meta( $ba_id, 'sba_after_img', true );
 
                         if( ! empty( $ba_before_url ) ) {
                             $ba_before_id = attachment_url_to_postid( $ba_before_url );
-                            $html .= wp_get_attachment_image( $ba_before_id, array( '485', '200' ), false, array( 'class' => 'sba-grid-item-before-img' ) );
+                            $html .= '<span class="sba-img-caption">Before</span>';
+                            $html .= wp_get_attachment_image( $ba_before_id, array( '485', '200' ), false, array( 'class' => 'sba-before-img' ) );
+                        }
+
+                        if( ! empty( $ba_after_url ) ) {
+                            $ba_after_id = attachment_url_to_postid( $ba_after_url );
+                            $html .= '<span class="sba-img-caption inactive">After</span>';
+                            $html .= wp_get_attachment_image( $ba_after_id, array( '485', '200' ), false, array( 'class' => 'sba-after-img inactive' ) );
                         }
 
                         $html .= '</div>'; // .sba-grid-item
