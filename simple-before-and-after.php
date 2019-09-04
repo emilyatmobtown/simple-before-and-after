@@ -44,20 +44,20 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
 
         public function enqueue_scripts() {
             $css_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/css/simple-before-and-after.css' ) );
-            $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/frontend/simple-before-and-after.js' ) );
+            $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/simple-before-and-after.js' ) );
 
             wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). 'dist/css/simple-before-and-after.css' , array(), $css_ver );
-            wp_enqueue_script( 'sba-swapper', plugin_dir_url( __FILE__ ). 'dist/js/frontend/simple-before-and-after.js', array(), $js_ver, true );
+            wp_enqueue_script( 'sba-swapper', plugin_dir_url( __FILE__ ). 'dist/js/simple-before-and-after.js', array(), $js_ver, true );
         }
 
         public function enqueue_admin_scripts() {
             global $typenow;
 
     		if( $typenow === 'before_and_after' ) {
-                $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/admin/sba-media.js' ) );
+                $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/sba-media.js' ) );
 
     			wp_enqueue_media();
-    			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . 'dist/js/admin/sba-media.js', array( 'jquery' ), $js_ver );
+    			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . 'dist/js/sba-media.js', array( 'jquery' ), $js_ver );
     			wp_localize_script( 'sba-meta-box-image-loader', 'meta_image',
     				array(
     					'title'        => __( 'Choose or Upload Media', 'simple-before-and-after' ),
