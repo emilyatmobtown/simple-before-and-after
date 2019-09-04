@@ -26,6 +26,7 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-wp-pot": "^2.3.5",
     "gulp-zip": "^5.0.0",
+    "merge-stream": "^2.0.0",
     "postcss-reporter": "^6.0.1",
     "postcss-simple-vars": "^5.0.2",
     "stylelint": "^10.1.0",

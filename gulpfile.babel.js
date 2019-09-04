@@ -8,6 +8,7 @@ import reporter from 'postcss-reporter'; /* Display pretty errors */
 import sourcemaps from 'gulp-sourcemaps'; /* Maps original source files for debugging */
 import stylelint from 'stylelint';
 import autoprefixer from 'autoprefixer';
+import merge from 'merge-stream';
 import rename from 'gulp-rename';
 import imagemin from 'gulp-imagemin';
 import del from 'del';
@@ -67,9 +68,33 @@ export const scripts = () => {
     );
 }
 
-/* Build the styles */
+/* Define the source files and destinations for each stylesheet */
+const styleFiles = [
+    {
+        styleSrc: 'src/scss/frontend/simple-before-and-after.scss',
+        styleDest: 'dist/css/frontend'
+    },
+    {
+        styleSrc: 'src/scss/admin/sba-admin.scss',
+        styleDest: 'dist/css/admin'
+    }
+];
+
+/* Process and merge all styles */
 export const styles = () => {
-    return src( 'src/scss/simple-before-and-after.scss' )
+    const styleTasks = styleFiles.map( function( styleTask )  {
+        return processStyle(
+            src( styleTask.styleSrc ),
+            { styleDest: styleTask.styleDest }
+        );
+    });
+
+    return merge( styleTasks );
+}
+
+/* Build each style */
+const processStyle = ( stream, options = { styleDest: 'dist/css' } ) => {
+    return stream
     .pipe(
         gulpif( !PRODUCTION, sourcemaps.init() )
     )
@@ -94,7 +119,7 @@ export const styles = () => {
         })
     )
     .pipe(
-        dest( 'dist/css' )
+        dest( options.styleDest )
     )
     .pipe(
         gulpif( PRODUCTION,
@@ -112,7 +137,7 @@ export const styles = () => {
     )
     .pipe(
         gulpif( PRODUCTION,
-            dest( 'dist/css' ) /* Add minified stylesheet to dist */
+            dest( options.styleDest ) /* Add minified stylesheet to dist */
         )
     )
     .pipe(

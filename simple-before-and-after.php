@@ -43,10 +43,10 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         }
 
         public function enqueue_scripts() {
-            $css_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/css/simple-before-and-after.css' ) );
+            $css_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/css/frontend/simple-before-and-after.css' ) );
             $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/simple-before-and-after.js' ) );
 
-            wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). 'dist/css/simple-before-and-after.css' , array(), $css_ver );
+            wp_enqueue_style( 'sba-styles', plugin_dir_url( __FILE__ ). 'dist/css/frontend/simple-before-and-after.css', array(), $css_ver );
             wp_enqueue_script( 'sba-swapper', plugin_dir_url( __FILE__ ). 'dist/js/simple-before-and-after.js', array(), $js_ver, true );
         }
 
@@ -54,7 +54,10 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
             global $typenow;
 
     		if( $typenow === 'before_and_after' ) {
+                $css_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/css/admin/sba-admin.css' ) );
                 $js_ver  = date( 'md-Gis', filemtime( plugin_dir_path( __FILE__ ) . 'dist/js/sba-media.js' ) );
+
+                wp_enqueue_style( 'sba-admin-styles', plugin_dir_url( __FILE__ ). 'dist/css/admin/sba-admin.css', array(), $css_ver );
 
     			wp_enqueue_media();
     			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . 'dist/js/sba-media.js', array( 'jquery' ), $js_ver );
@@ -148,36 +151,48 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         public function show_before_and_after_meta_box( $post ) {
             wp_nonce_field( basename( __FILE__), 'before_and_after_nonce_field' );
 
-            $before_img = get_post_meta( $post->ID, 'sba_before_img', true );
-            $after_img = get_post_meta( $post->ID, 'sba_after_img', true );
+            $before_url = get_post_meta( $post->ID, 'sba_before_img', true );
+            $after_url = get_post_meta( $post->ID, 'sba_after_img', true );
 
             ?>
             <p>Select or upload your images.</p>
             <div class="field-container">
-                <div class="field">
-                    <label for="sba_before_img">
-                        <?php
+                <div class="field sba-meta-box-field">
+                    <label for="sba_before_img" class="sba-meta-box-field-label"><?php
                         // translators: This is the caption for the Before field on the post edit screen.
                         _e( 'Before', 'simple-before-and-after' )
-                        ?>
-                    </label><br>
-                    <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_img ); ?>"><br>
-                    <button type="button" class="button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img">
+                    ?></label><br>
+
+                    <?php
+                    if (! empty( $before_url ) ) {
+                        $before_id = attachment_url_to_postid( $before_url );
+                        echo wp_get_attachment_image( $before_id, 'thumbnail', false, array( 'class' => 'sba-meta-box-img' ) );
+                    }
+                    ?>
+
+                    <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_url ); ?>"><br>
+                    <button type="button" class="button sba-meta-box-button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.
                         _e( 'Upload Image', 'simple-before-and-after' )
                         ?>
                     </button>
                 </div><br>
-                <div class="field">
-                    <label for="sba_after_img">
-                        <?php
+                <div class="field sba-meta-box-field">
+                    <label for="sba_after_img" class="sba-meta-box-field-label"><?php
                         // translators: This is the caption for the After field on the post edit screen.
                         _e( 'After', 'simple-before-and-after' )
-                        ?>
-                    </label><br>
-                    <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_img ); ?>"><br>
-                    <button type="button" class="button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img">
+                    ?></label><br>
+
+                    <?php
+                    if (! empty( $after_url ) ) {
+                        $after_id = attachment_url_to_postid( $after_url );
+                        echo wp_get_attachment_image( $after_id, 'thumbnail', false, array( 'class' => 'sba-meta-box-img' ) );
+                    }
+                    ?>
+
+                    <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_url ); ?>"><br>
+                    <button type="button" class="button sba-meta-box-button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.
                         _e( 'Upload Image', 'simple-before-and-after' )

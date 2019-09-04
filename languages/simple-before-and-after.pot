@@ -14,82 +14,82 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. translators: This is the title of the image uploader.
-#: simple-before-and-after.php:64
+#: simple-before-and-after.php:67
 msgid "Choose or Upload Image"
 msgstr ""
 
 #. translators: This is the button label for the image uploader.
-#: simple-before-and-after.php:66
+#: simple-before-and-after.php:69
 msgid "Use This Image"
 msgstr ""
 
 #. translators: This is the name of the Before and After post type.
 #. translators: This is the name of the menu item for Before and After posts.
 #. translators: This is the label for Before and After posts.
-#: simple-before-and-after.php:86, simple-before-and-after.php:108, simple-before-and-after.php:113
+#: simple-before-and-after.php:89, simple-before-and-after.php:111, simple-before-and-after.php:116
 msgid "Before and Afters"
 msgstr ""
 
 #. translators: This is the singular name of the Before and After post type.
-#: simple-before-and-after.php:88
+#: simple-before-and-after.php:91
 msgid "Before and After"
 msgstr ""
 
 #. translators: This is a label to add a new Before and After post.
 #. translators: This is a label to add a new Before and After post.
-#: simple-before-and-after.php:90, simple-before-and-after.php:92
+#: simple-before-and-after.php:93, simple-before-and-after.php:95
 msgid "Add New Before and After"
 msgstr ""
 
 #. translators: This is a label to edit a  Before and After post.
-#: simple-before-and-after.php:94
+#: simple-before-and-after.php:97
 msgid "Edit Before and After"
 msgstr ""
 
 #. translators: This is a label for a new Before and After post.
-#: simple-before-and-after.php:96
+#: simple-before-and-after.php:99
 msgid "New Before and After"
 msgstr ""
 
 #. translators: This is a label to show all Before and After posts.
-#: simple-before-and-after.php:98
+#: simple-before-and-after.php:101
 msgid "All Before and Afters"
 msgstr ""
 
 #. translators: This is a label to view a Before and After post.
-#: simple-before-and-after.php:100
+#: simple-before-and-after.php:103
 msgid "View Before and After"
 msgstr ""
 
 #. translators: This is a label to search the Before and After posts.
-#: simple-before-and-after.php:102
+#: simple-before-and-after.php:105
 msgid "Search Before and Afters"
 msgstr ""
 
 #. translators: This is a message shown when no matching Before and After posts are found.
-#: simple-before-and-after.php:104
+#: simple-before-and-after.php:107
 msgid "No Before and Afters Found"
 msgstr ""
 
 #. translators: This is a message shown when no matching Before and After posts are found in Trash.
-#: simple-before-and-after.php:106
+#: simple-before-and-after.php:109
 msgid "No Before and Afters Found in Trash"
 msgstr ""
 
 #. translators: This is the caption for the Before field on the post edit screen.
 #. translators: This is the caption for the Before image when the grid is displayed.
-#: simple-before-and-after.php:161, simple-before-and-after.php:260
+#: simple-before-and-after.php:163, simple-before-and-after.php:275
 msgid "Before"
 msgstr ""
 
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
-#: simple-before-and-after.php:168, simple-before-and-after.php:183
+#: simple-before-and-after.php:177, simple-before-and-after.php:198
 msgid "Upload Image"
 msgstr ""
 
 #. translators: This is the caption for the After field on the post edit screen.
 #. translators: This is the caption for the After image when the grid is displayed.
-#: simple-before-and-after.php:176, simple-before-and-after.php:269
+#: simple-before-and-after.php:184, simple-before-and-after.php:284
 msgid "After"
 msgstr ""
