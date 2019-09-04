@@ -161,7 +161,7 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                     <label for="sba_before_img" class="sba-meta-box-field-label"><?php
                         // translators: This is the caption for the Before field on the post edit screen.
                         _e( 'Before', 'simple-before-and-after' )
-                    ?></label><br>
+                    ?></label>
 
                     <?php
                     if (! empty( $before_url ) ) {
@@ -170,19 +170,19 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                     }
                     ?>
 
-                    <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_url ); ?>"><br>
+                    <input type="url" class="large-text sba-meta-box-input-field" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_url ); ?>">
                     <button type="button" class="button sba-meta-box-button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.
                         _e( 'Upload Image', 'simple-before-and-after' )
                         ?>
                     </button>
-                </div><br>
+                </div>
                 <div class="field sba-meta-box-field">
                     <label for="sba_after_img" class="sba-meta-box-field-label"><?php
                         // translators: This is the caption for the After field on the post edit screen.
                         _e( 'After', 'simple-before-and-after' )
-                    ?></label><br>
+                    ?></label>
 
                     <?php
                     if (! empty( $after_url ) ) {
@@ -191,7 +191,7 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                     }
                     ?>
 
-                    <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_url ); ?>"><br>
+                    <input type="url" class="large-text sba-meta-box-input-field" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_url ); ?>">
                     <button type="button" class="button sba-meta-box-button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.

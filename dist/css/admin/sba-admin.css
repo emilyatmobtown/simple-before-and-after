@@ -1,3 +1,51 @@
+.sba-meta-box-field {
+    display: inline-block;
+    width: 48%;
+    margin-right: 2%;
+    padding-right: 2%;
+    border-right: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+.sba-meta-box-field:last-of-type {
+    margin-right: 0;
+    padding-right: 0;
+    border-right: 0;
+}
+
 .sba-meta-box-field-label {
+    display: block;
     font-weight: 700;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.sba-meta-box-img {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.sba-meta-box-input-field {
+    display: block;
+    margin-bottom: 10px;
+}
+
+
+@media screen and (max-width: 960px) {
+
+    .sba-meta-box-field {
+        display: block;
+        width: 100%;
+        margin: 0 0 24px;
+        padding: 0 0 24px;
+        border: 0;
+        border-bottom: 1px solid #eee;
+    }
+
+    .sba-meta-box-field:last-of-type {
+        margin: 0;
+        padding: 0;
+        border: 0;
+    }
 }
