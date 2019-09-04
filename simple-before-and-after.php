@@ -60,8 +60,10 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
     			wp_register_script( 'sba-meta-box-image-loader', plugin_dir_url( __FILE__ ) . 'dist/js/sba-media.js', array( 'jquery' ), $js_ver );
     			wp_localize_script( 'sba-meta-box-image-loader', 'meta_image',
     				array(
-    					'title'        => __( 'Choose or Upload Media', 'simple-before-and-after' ),
-    					'button'       => __( 'Use this media', 'simple-before-and-after' ),
+                        // translators: This is the title of the image uploader.
+    					'title'        => __( 'Choose or Upload Image', 'simple-before-and-after' ),
+                        // translators: This is the button label for the image uploader.
+    					'button'       => __( 'Use This Image', 'simple-before-and-after' ),
     				)
     			);
     			wp_enqueue_script( 'sba-meta-box-image-loader' );
@@ -80,23 +82,35 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
         **/
         public function register_before_and_after_post_type() {
             $labels = array(
-        		'name'                => __( 'Before and Afters', '' ),
-        		'singular_name'       => __( 'Before and After', '' ),
-        		'add_new'             => __( 'Add New Before and After', '' ),
-        		'add_new_item'        => __( 'Add New Before and After', '' ),
-        		'edit_item'           => __( 'Edit Before and After', '' ),
-        		'new_item'            => __( 'New Before and After', '' ),
-        		'all_items'           => __( 'All Before and Afters', '' ),
-        		'view_item'           => __( 'View Before and After', '' ),
-        		'search_items'        => __( 'Search Before and Afters', '' ),
-        		'not_found'           => __( 'No Before and Afters Found', '' ),
-        		'not_found_in_trash'  => __( 'No Before and Afters Found in Trash', '' ),
-        		'parent_item_colon'   => __( '', '' ),
-        		'menu_name'           => __( 'Before and Afters', '' )
+                // translators: This is the name of the Before and After post type.
+        		'name'                => __( 'Before and Afters', 'simple-before-and-after' ),
+                // translators: This is the singular name of the Before and After post type.
+        		'singular_name'       => __( 'Before and After', 'simple-before-and-after' ),
+                // translators: This is a label to add a new Before and After post.
+        		'add_new'             => __( 'Add New Before and After', 'simple-before-and-after' ),
+                // translators: This is a label to add a new Before and After post.
+        		'add_new_item'        => __( 'Add New Before and After', 'simple-before-and-after' ),
+                // translators: This is a label to edit a  Before and After post.
+        		'edit_item'           => __( 'Edit Before and After', 'simple-before-and-after' ),
+                // translators: This is a label for a new Before and After post.
+        		'new_item'            => __( 'New Before and After', 'simple-before-and-after' ),
+                // translators: This is a label to show all Before and After posts.
+        		'all_items'           => __( 'All Before and Afters', 'simple-before-and-after' ),
+                // translators: This is a label to view a Before and After post.
+        		'view_item'           => __( 'View Before and After', 'simple-before-and-after' ),
+                // translators: This is a label to search the Before and After posts.
+        		'search_items'        => __( 'Search Before and Afters', 'simple-before-and-after' ),
+                // translators: This is a message shown when no matching Before and After posts are found.
+        		'not_found'           => __( 'No Before and Afters Found', 'simple-before-and-after' ),
+                // translators: This is a message shown when no matching Before and After posts are found in Trash.
+        		'not_found_in_trash'  => __( 'No Before and Afters Found in Trash', 'simple-before-and-after' ),
+                // translators: This is the name of the menu item for Before and After posts.
+        		'menu_name'           => __( 'Before and Afters', 'simple-before-and-after' )
         	);
 
         	$args = array(
-        		'label'               => __( 'Before and Afters', '' ),
+                // translators: This is the label for Before and After posts.
+        		'label'               => __( 'Before and Afters', 'simple-before-and-after' ),
         		'labels'              => $labels,
         		'description'         => '',
         		'public'              => true,
@@ -141,14 +155,34 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
             <p>Select or upload your images.</p>
             <div class="field-container">
                 <div class="field">
-                    <label for="sba_before_img"><?php _e( 'Before', 'simple-before-and-after' )?></label><br>
+                    <label for="sba_before_img">
+                        <?php
+                        // translators: This is the caption for the Before field on the post edit screen.
+                        _e( 'Before', 'simple-before-and-after' )
+                        ?>
+                    </label><br>
                     <input type="url" class="large-text" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_img ); ?>"><br>
-                    <button type="button" class="button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img"><?php _e( 'Upload Image', 'simple-before-and-after' )?></button>
+                    <button type="button" class="button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img">
+                        <?php
+                        // translators: This is the label for the button that opens the media loader on the post edit screen.
+                        _e( 'Upload Image', 'simple-before-and-after' )
+                        ?>
+                    </button>
                 </div><br>
                 <div class="field">
-                    <label for="sba_after_img"><?php _e( 'After', 'simple-before-and-after' )?></label><br>
+                    <label for="sba_after_img">
+                        <?php
+                        // translators: This is the caption for the After field on the post edit screen.
+                        _e( 'After', 'simple-before-and-after' )
+                        ?>
+                    </label><br>
                     <input type="url" class="large-text" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_img ); ?>"><br>
-                    <button type="button" class="button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img"><?php _e( 'Upload Image', 'simple-before-and-after' )?></button>
+                    <button type="button" class="button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img">
+                        <?php
+                        // translators: This is the label for the button that opens the media loader on the post edit screen.
+                        _e( 'Upload Image', 'simple-before-and-after' )
+                        ?>
+                    </button>
                 </div>
             </div>
             <?php
@@ -221,13 +255,19 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
 
                         if( ! empty( $ba_before_url ) ) {
                             $ba_before_id = attachment_url_to_postid( $ba_before_url );
-                            $html .= '<span class="sba-img-caption">Before</span>';
+                            $html .= '<span class="sba-img-caption">';
+                            // translators: This is the caption for the Before image when the grid is displayed.
+                            $html .= __( 'Before', 'simple-before-and-after' );
+                            $html .= '</span>';
                             $html .= wp_get_attachment_image( $ba_before_id, array( '485', '200' ), false, array( 'class' => 'sba-before-img' ) );
                         }
 
                         if( ! empty( $ba_after_url ) ) {
                             $ba_after_id = attachment_url_to_postid( $ba_after_url );
-                            $html .= '<span class="sba-img-caption inactive">After</span>';
+                            $html .= '<span class="sba-img-caption">';
+                            // translators: This is the caption for the After image when the grid is displayed.
+                            $html .= __( 'After', 'simple-before-and-after' );
+                            $html .= '</span>';
                             $html .= wp_get_attachment_image( $ba_after_id, array( '485', '200' ), false, array( 'class' => 'sba-after-img inactive' ) );
                         }
 

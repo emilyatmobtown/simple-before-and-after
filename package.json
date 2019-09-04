@@ -1,6 +1,6 @@
 {
   "name": "simple-before-and-after",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Displays a simple grid that swaps Before and After images.",
   "main": "index.js",
   "scripts": {

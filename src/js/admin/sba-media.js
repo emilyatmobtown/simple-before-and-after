@@ -28,7 +28,7 @@
 		// Sets up the media library frame
 		metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
 			title: meta_image.title,
-			button: { text:  'Use this file' },
+			button: { text:  meta_image.button },
 		});
 
 		// Runs when an image is selected.
