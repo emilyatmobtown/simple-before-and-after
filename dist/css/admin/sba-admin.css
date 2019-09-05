@@ -5,6 +5,7 @@
     padding-right: 2%;
     border-right: 1px solid #eee;
     box-sizing: border-box;
+    vertical-align: top;
 }
 
 .sba-meta-box-field:last-of-type {
@@ -21,14 +22,26 @@
 }
 
 .sba-meta-box-img {
+    width: 300px;
+    height: auto;
+    max-width: 100%;
     border: 1px solid #eee;
     padding: 10px;
     margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.sba-meta-box-img.inactive {
+    display: none;
 }
 
 .sba-meta-box-input-field {
     display: block;
     margin-bottom: 10px;
+}
+
+.sba-meta-box-delete-button.inactive {
+    display: none;
 }
 
 
@@ -47,5 +60,9 @@
         margin: 0;
         padding: 0;
         border: 0;
+    }
+
+    .sba-meta-box-img {
+        width: 500px;
     }
 }

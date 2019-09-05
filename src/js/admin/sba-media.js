@@ -1,50 +1,78 @@
 /**
- * Description: Load media uploader on pages with our custom metabox
- * Author:      Chris Ferdinandi
- * Author URI:  https://gist.github.com/cferdinandi
+ * Description: Loads media uploader to select Before and After images
  */
- jQuery(document).ready(function($){
 
+ jQuery( document ).ready( function( $ ){
 	'use strict';
 
-	// Instantiates the variable that holds the media library frame.
-	var metaImageFrame;
+    var frame,
+    uploadImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-upload-button' ),
+    deleteImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-delete-button');
 
-	// Runs when the media button is clicked.
-	$( 'body' ).click(function(e) {
+	// Runs when the upload button is clicked.
+	uploadImageButton.on( 'click', function( e ) {
 
-		// Get the btn
-		var btn = e.target;
+        // Make sure the media API exists
+        if ( typeof wp === 'undefined' || !wp.media ) {
+            return;
+        }
 
-		// Check if it's the upload button
-		if ( !btn || !$( btn ).attr( 'data-media-uploader-target' ) ) return;
-
-		// Get the field target
-		var field = $( btn ).data( 'media-uploader-target' );
-
-		// Prevents the default action from occuring.
+        // Prevent the default action from occurring.
 		e.preventDefault();
 
-		// Sets up the media library frame
-		metaImageFrame = wp.media.frames.metaImageFrame = wp.media({
-			title: meta_image.title,
-			button: { text:  meta_image.button },
-		});
+        // Create a new media frame
+        frame = wp.media({
+            title: meta_image.title,
+            button: { text: meta_image.button },
+            multiple: false,  // Allow only single file selection
+            library: {
+                type: ['image/jpeg', 'image/png', 'image/gif'],
+            }
+        });
+
+        var field = $( this ).parent( '.field' ),
+        img = field.find( '.sba-meta-box-img' ),
+        imgInput = field.find( '.sba-meta-box-input-field' ),
+        deleteButton = field.find( '.sba-meta-box-delete-button' );
 
 		// Runs when an image is selected.
-		metaImageFrame.on('select', function() {
+		frame.on( 'select', function() {
 
-			// Grabs the attachment selection and creates a JSON representation of the model.
-			var media_attachment = metaImageFrame.state().get('selection').first().toJSON();
+			// Grab the attachment selection and creates a JSON representation of the model.
+			var attachment = frame.state().get( 'selection' ).first().toJSON();
 
-			// Sends the attachment URL to our custom image input field.
-			$( field ).val(media_attachment.url);
+            // Send the src for our custom image field.
+            img.attr( 'src', attachment.url ).removeClass( 'inactive' );
+
+            // Send the attachment URL to our custom image input field.
+			imgInput.val( attachment.url );
+
+            // Shows delete Button
+            deleteButton.removeClass( 'inactive' );
 
 		});
 
-		// Opens the media library frame.
-		metaImageFrame.open();
-
+		// Opens the media library frame on click.
+		frame.open();
 	});
 
+    // Runs when the delete button is clicked
+    deleteImageButton.on( 'click', function( e ) {
+
+        // Prevent the default action from occurring.
+		e.preventDefault();
+
+        var field = $( this ).parent( '.field' ),
+        img = field.find( '.sba-meta-box-img' ),
+        imgInput = field.find( '.sba-meta-box-input-field' );
+
+        // Remove the image URL from the img tag
+        img.attr( 'src', '' ).addClass( 'inactive' );
+
+        // Remove the image URL from the input field
+        imgInput.val( '' );
+
+        // Hide the delete button
+        $( this ).addClass( 'inactive' );
+    });
 });

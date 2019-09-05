@@ -164,17 +164,24 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                     ?></label>
 
                     <?php
-                    if (! empty( $before_url ) ) {
-                        $before_id = attachment_url_to_postid( $before_url );
-                        echo wp_get_attachment_image( $before_id, 'thumbnail', false, array( 'class' => 'sba-meta-box-img' ) );
-                    }
+                    $before_img_src = empty( $before_url ) ? '' : $before_url;
+                    $before_active_class = empty( $before_url ) ? 'inactive' : '';
                     ?>
 
-                    <input type="url" class="large-text sba-meta-box-input-field" name="sba_before_img" id="sba_before_img" value="<?php echo esc_url( $before_url ); ?>">
-                    <button type="button" class="button sba-meta-box-button" id="sba_before_img_upload_btn" data-media-uploader-target="#sba_before_img">
+                    <div class="sba-meta-box-img-wrapper">
+                        <img id="sba_before_img" src="<?php echo esc_url( $before_url ) ?>" class="sba-meta-box-img <?php echo $before_active_class ?>" alt="Before Image" />
+                    </div>
+                    <input id="sba_before_img_input" class="large-text sba-meta-box-input-field" name="sba_before_img_input" type="hidden" value="<?php echo esc_url( $before_url ); ?>">
+                    <button id="sba_before_img_upload_btn" class="button sba-meta-box-button sba-meta-box-upload-button" type="button">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.
-                        _e( 'Upload Image', 'simple-before-and-after' )
+                        _e( 'Upload or Edit Image', 'simple-before-and-after' )
+                        ?>
+                    </button>
+                    <button id="sba_before_img_delete_btn" class="button sba-meta-box-button sba-meta-box-delete-button <?php echo $before_active_class ?>" type="button">
+                        <?php
+                        // translators: This is the label for the button that deletes the image on the post edit screen.
+                        _e( 'Delete Image', 'simple-before-and-after' )
                         ?>
                     </button>
                 </div>
@@ -185,17 +192,24 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                     ?></label>
 
                     <?php
-                    if (! empty( $after_url ) ) {
-                        $after_id = attachment_url_to_postid( $after_url );
-                        echo wp_get_attachment_image( $after_id, 'thumbnail', false, array( 'class' => 'sba-meta-box-img' ) );
-                    }
+                    $after_img_src = empty( $after_url ) ? '' : $after_url;
+                    $after_active_class = empty( $after_url ) ? 'inactive' : '';
                     ?>
 
-                    <input type="url" class="large-text sba-meta-box-input-field" name="sba_after_img" id="sba_after_img" value="<?php echo esc_url( $after_url ); ?>">
-                    <button type="button" class="button sba-meta-box-button" id="sba_after_img_upload_btn" data-media-uploader-target="#sba_after_img">
+                    <div class="sba-meta-box-img-wrapper">
+                        <img id="sba_after_img" src="<?php echo esc_url( $after_url ) ?>" class="sba-meta-box-img <?php echo $after_active_class ?>" alt="After Image" />
+                    </div>
+                    <input id="sba_after_img_input" class="large-text sba-meta-box-input-field" name="sba_after_img_input" type="hidden" value="<?php echo esc_url( $after_url ); ?>">
+                    <button type="button" class="button sba-meta-box-button sba-meta-box-upload-button" id="sba_after_img_upload_btn">
                         <?php
                         // translators: This is the label for the button that opens the media loader on the post edit screen.
-                        _e( 'Upload Image', 'simple-before-and-after' )
+                        _e( 'Upload or Edit Image', 'simple-before-and-after' )
+                        ?>
+                    </button>
+                    <button id="sba_after_img_delete_btn" class="button sba-meta-box-button sba-meta-box-delete-button <?php echo $after_active_class ?>" type="button">
+                        <?php
+                        // translators: This is the label for the button that deletes the image on the post edit screen.
+                        _e( 'Delete Image', 'simple-before-and-after' )
                         ?>
                     </button>
                 </div>
@@ -219,8 +233,8 @@ if ( ! class_exists( 'Simple_Before_And_After' ) ) {
                 return $post_id;
             }
 
-            $before_img = isset( $_POST['sba_before_img'] ) ? sanitize_url( $_POST['sba_before_img'] ) : '';
-            $after_img = isset( $_POST['sba_after_img'] ) ? sanitize_url( $_POST['sba_after_img'] ) : '';
+            $before_img = isset( $_POST['sba_before_img_input'] ) ? sanitize_url( $_POST['sba_before_img_input'] ) : '';
+            $after_img = isset( $_POST['sba_after_img_input'] ) ? sanitize_url( $_POST['sba_after_img_input'] ) : '';
 
             update_post_meta( $post_id, 'sba_before_img', $before_img );
             update_post_meta( $post_id, 'sba_after_img', $after_img );
