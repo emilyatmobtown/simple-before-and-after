@@ -79,12 +79,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/emilyatmobtown/els-php-standard.git",
-                "reference": "04c9139f10653a2298fa6f6bb780dfcd8ce8a2b4"
+                "reference": "330e828f86909f8892b62f9ae13d5bd9a9ffdea7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/emilyatmobtown/els-php-standard/zipball/04c9139f10653a2298fa6f6bb780dfcd8ce8a2b4",
-                "reference": "04c9139f10653a2298fa6f6bb780dfcd8ce8a2b4",
+                "url": "https://api.github.com/repos/emilyatmobtown/els-php-standard/zipball/330e828f86909f8892b62f9ae13d5bd9a9ffdea7",
+                "reference": "330e828f86909f8892b62f9ae13d5bd9a9ffdea7",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Package contains Emily's coding standards",
-            "time": "2019-09-06T15:36:11+00:00"
+            "time": "2019-09-06T21:56:24+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
