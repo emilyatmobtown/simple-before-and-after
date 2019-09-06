@@ -14,82 +14,88 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. translators: This is the title of the image uploader.
-#: simple-before-and-after.php:67
+#: simple-before-and-after.php:61
 msgid "Choose or Upload Image"
 msgstr ""
 
 #. translators: This is the button label for the image uploader.
-#: simple-before-and-after.php:69
+#: simple-before-and-after.php:63
 msgid "Use This Image"
 msgstr ""
 
 #. translators: This is the name of the Before and After post type.
 #. translators: This is the name of the menu item for Before and After posts.
 #. translators: This is the label for Before and After posts.
-#: simple-before-and-after.php:89, simple-before-and-after.php:111, simple-before-and-after.php:116
+#: simple-before-and-after.php:83, simple-before-and-after.php:105, simple-before-and-after.php:110
 msgid "Before and Afters"
 msgstr ""
 
 #. translators: This is the singular name of the Before and After post type.
-#: simple-before-and-after.php:91
+#: simple-before-and-after.php:85
 msgid "Before and After"
 msgstr ""
 
 #. translators: This is a label to add a new Before and After post.
 #. translators: This is a label to add a new Before and After post.
-#: simple-before-and-after.php:93, simple-before-and-after.php:95
+#: simple-before-and-after.php:87, simple-before-and-after.php:89
 msgid "Add New Before and After"
 msgstr ""
 
 #. translators: This is a label to edit a  Before and After post.
-#: simple-before-and-after.php:97
+#: simple-before-and-after.php:91
 msgid "Edit Before and After"
 msgstr ""
 
 #. translators: This is a label for a new Before and After post.
-#: simple-before-and-after.php:99
+#: simple-before-and-after.php:93
 msgid "New Before and After"
 msgstr ""
 
 #. translators: This is a label to show all Before and After posts.
-#: simple-before-and-after.php:101
+#: simple-before-and-after.php:95
 msgid "All Before and Afters"
 msgstr ""
 
 #. translators: This is a label to view a Before and After post.
-#: simple-before-and-after.php:103
+#: simple-before-and-after.php:97
 msgid "View Before and After"
 msgstr ""
 
 #. translators: This is a label to search the Before and After posts.
-#: simple-before-and-after.php:105
+#: simple-before-and-after.php:99
 msgid "Search Before and Afters"
 msgstr ""
 
 #. translators: This is a message shown when no matching Before and After posts are found.
-#: simple-before-and-after.php:107
+#: simple-before-and-after.php:101
 msgid "No Before and Afters Found"
 msgstr ""
 
 #. translators: This is a message shown when no matching Before and After posts are found in Trash.
-#: simple-before-and-after.php:109
+#: simple-before-and-after.php:103
 msgid "No Before and Afters Found in Trash"
 msgstr ""
 
 #. translators: This is the caption for the Before field on the post edit screen.
 #. translators: This is the caption for the Before image when the grid is displayed.
-#: simple-before-and-after.php:163, simple-before-and-after.php:275
+#: simple-before-and-after.php:157, simple-before-and-after.php:283
 msgid "Before"
 msgstr ""
 
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
-#: simple-before-and-after.php:177, simple-before-and-after.php:198
-msgid "Upload Image"
+#: simple-before-and-after.php:172, simple-before-and-after.php:200
+msgid "Upload or Edit Image"
+msgstr ""
+
+#. translators: This is the label for the button that deletes the image on the post edit screen.
+#. translators: This is the label for the button that deletes the image on the post edit screen.
+#: simple-before-and-after.php:178, simple-before-and-after.php:206
+msgid "Delete Image"
 msgstr ""
 
 #. translators: This is the caption for the After field on the post edit screen.
 #. translators: This is the caption for the After image when the grid is displayed.
-#: simple-before-and-after.php:184, simple-before-and-after.php:284
+#: simple-before-and-after.php:185, simple-before-and-after.php:292
 msgid "After"
 msgstr ""

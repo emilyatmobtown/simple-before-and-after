@@ -1,19 +1,24 @@
 /**
  * Description: Loads media uploader to select Before and After images
- */
+ **/
 
- jQuery( document ).ready( function( $ ){
+ jQuery( document ).ready( function( $ ) {
 	'use strict';
 
     var frame,
     uploadImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-upload-button' ),
-    deleteImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-delete-button');
+    deleteImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-delete-button' );
 
 	// Runs when the upload button is clicked.
 	uploadImageButton.on( 'click', function( e ) {
 
+        var field = $( this ).parent( '.field' ),
+        img = field.find( '.sba-meta-box-img' ),
+        imgInput = field.find( '.sba-meta-box-input-field' ),
+        deleteButton = field.find( '.sba-meta-box-delete-button' );
+
         // Make sure the media API exists
-        if ( typeof wp === 'undefined' || !wp.media ) {
+        if ( typeof 'undefined' === wp  || ! wp.media ) {
             return;
         }
 
@@ -22,18 +27,13 @@
 
         // Create a new media frame
         frame = wp.media({
-            title: meta_image.title,
-            button: { text: meta_image.button },
+            title: metaImage.title,
+            button: { text: metaImage.button },
             multiple: false,  // Allow only single file selection
             library: {
-                type: ['image/jpeg', 'image/png', 'image/gif'],
+                type: [ 'image/jpeg', 'image/png', 'image/gif' ]
             }
         });
-
-        var field = $( this ).parent( '.field' ),
-        img = field.find( '.sba-meta-box-img' ),
-        imgInput = field.find( '.sba-meta-box-input-field' ),
-        deleteButton = field.find( '.sba-meta-box-delete-button' );
 
 		// Runs when an image is selected.
 		frame.on( 'select', function() {
@@ -59,12 +59,12 @@
     // Runs when the delete button is clicked
     deleteImageButton.on( 'click', function( e ) {
 
-        // Prevent the default action from occurring.
-		e.preventDefault();
-
         var field = $( this ).parent( '.field' ),
         img = field.find( '.sba-meta-box-img' ),
         imgInput = field.find( '.sba-meta-box-input-field' );
+
+        // Prevent the default action from occurring.
+		e.preventDefault();
 
         // Remove the image URL from the img tag
         img.attr( 'src', '' ).addClass( 'inactive' );
