@@ -5,14 +5,15 @@
  jQuery( document ).ready( function( $ ) {
 	'use strict';
 
+	// Listen for a click on both the upload button and the image
 	var frame,
-	uploadImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-upload-button' ),
+	uploadImageTargets = $( '#before_and_after_meta_box.postbox .sba-meta-box-upload-button, #before_and_after_meta_box.postbox .sba-meta-box-img' ),
 	deleteImageButton = $( '#before_and_after_meta_box.postbox .sba-meta-box-delete-button' );
 
-	// Runs when the upload button is clicked.
-	uploadImageButton.on( 'click', function( e ) {
+	// Runs when one of the upload targets is clicked.
+	uploadImageTargets.on( 'click', function( e ) {
 
-		var field = $( this ).parent( '.field' ),
+		var field = $( this ).closest( '.field' ),
 		img = field.find( '.sba-meta-box-img' ),
 		imgInput = field.find( '.sba-meta-box-input-field' ),
 		deleteButton = field.find( '.sba-meta-box-delete-button' );

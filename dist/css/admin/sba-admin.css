@@ -19,6 +19,7 @@
 	font-weight: 700;
 	line-height: 1;
 	margin-bottom: 10px;
+	cursor: default;
 }
 
 .sba-meta-box-img {
@@ -29,6 +30,7 @@
 	padding: 10px;
 	margin-bottom: 10px;
 	box-sizing: border-box;
+	cursor: pointer;
 }
 
 .sba-meta-box-img.inactive {
