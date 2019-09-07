@@ -3,7 +3,7 @@
  * Plugin Name:         Simple Before and After
  * Description:         Displays a simple grid that swaps Before and After images.
  * Version:             0.1.0
- * Requires at least:   4.9
+ * Requires at least:   5.2
  * Requires PHP:        7.0
  * Author:              Emily Leffler Schulman, Mobtown Studios
  * Author URI:          https://emilylefflerschulman.com

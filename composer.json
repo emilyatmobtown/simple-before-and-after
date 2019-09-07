@@ -3,12 +3,12 @@
 	"version": "0.1.0",
 	"description": "Displays a simple grid that swaps Before and After images.",
 	"authors": [
-	{
-		"name": "Emily Leffler Schulman"
-	}
+		{
+			"name": "Emily Leffler Schulman"
+		}
 	],
 	"require-dev": {
-        "squizlabs/php_codesniffer": ">=3.4",
+        "squizlabs/php_codesniffer": "dev-master",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.5.0",
         "wp-coding-standards/wpcs": "^2.0",
 		"phpcompatibility/phpcompatibility-wp": "^2.0",

@@ -94,7 +94,7 @@ function get_enqueue_contexts() {
 function script_url( $script, $context ) {
 
 	if ( ! in_array( $context, get_enqueue_contexts(), true ) ) {
-		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in SamplePlugin script loader.' );
+		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the SimpleBeforeAndAfter script loader.' );
 	}
 
 	return SBA_URL . "dist/js/${context}/${script}.js";
@@ -112,7 +112,7 @@ function script_url( $script, $context ) {
 function style_url( $stylesheet, $context ) {
 
 	if ( ! in_array( $context, get_enqueue_contexts(), true ) ) {
-		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in SamplePlugin stylesheet loader.' );
+		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the SimpleBeforeAndAfter stylesheet loader.' );
 	}
 
 	return SBA_URL . "dist/css/${context}/${stylesheet}.css";
@@ -189,13 +189,16 @@ function styles() {
  * @return void
  */
 function admin_styles() {
+	global $typenow;
 
-	wp_enqueue_style(
-		'sba-admin-styles',
-		style_url( 'sba-admin', 'admin' ),
-		[],
-		SBA_VERSION
-	);
+	if ( 'before_and_after' === $typenow ) {
+		wp_enqueue_style(
+			'sba-admin-styles',
+			style_url( 'sba-admin', 'admin' ),
+			[],
+			SBA_VERSION
+		);
+	}
 
 }
 

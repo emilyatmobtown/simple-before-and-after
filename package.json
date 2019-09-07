@@ -2,7 +2,6 @@
   "name": "simple-before-and-after",
   "version": "0.1.0",
   "description": "Displays a simple grid that swaps Before and After images.",
-  "main": "index.js",
   "scripts": {
     "start": "gulp",
     "build": "gulp build --prod"
@@ -10,9 +9,9 @@
   "author": "Emily Leffler Schulman",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@babel/register": "^7.5.5",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.0",
     "autoprefixer": "^9.6.1",
     "browser-sync": "^2.26.7",
     "cssnano": "^4.1.10",
@@ -23,6 +22,8 @@
     "gulp-eslint": "^6.0.0",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^6.1.0",
+    "gulp-notify": "^3.2.0",
+    "gulp-plumber": "^1.2.1",
     "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.5",

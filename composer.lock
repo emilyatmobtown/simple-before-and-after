@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f071bdaf93bc2db5de6289fc95b4e280",
+    "content-hash": "04751d54e8ab8ccbaa810e6038d44d91",
     "packages": [],
     "packages-dev": [
         {
@@ -79,12 +79,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/emilyatmobtown/els-php-standard.git",
-                "reference": "330e828f86909f8892b62f9ae13d5bd9a9ffdea7"
+                "reference": "34a8892dbc4421b64b844ac2db2bd8d8905fcc8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/emilyatmobtown/els-php-standard/zipball/330e828f86909f8892b62f9ae13d5bd9a9ffdea7",
-                "reference": "330e828f86909f8892b62f9ae13d5bd9a9ffdea7",
+                "url": "https://api.github.com/repos/emilyatmobtown/els-php-standard/zipball/34a8892dbc4421b64b844ac2db2bd8d8905fcc8d",
+                "reference": "34a8892dbc4421b64b844ac2db2bd8d8905fcc8d",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +94,7 @@
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
             "description": "Package contains Emily's coding standards",
-            "time": "2019-09-06T21:56:24+00:00"
+            "time": "2019-09-07T12:35:26+00:00"
         },
         {
             "name": "phpcompatibility/php-compatibility",
@@ -473,16 +473,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.4.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8"
+                "reference": "50d6208ced979182f94af8b0ac4620aec6aa2ceb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
-                "reference": "b8a7362af1cc1aadb5bd36c3defc4dda2cf5f0a8",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/50d6208ced979182f94af8b0ac4620aec6aa2ceb",
+                "reference": "50d6208ced979182f94af8b0ac4620aec6aa2ceb",
                 "shasum": ""
             },
             "require": {
@@ -520,7 +520,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-04-10T23:49:02+00:00"
+            "time": "2019-09-05T06:05:27+00:00"
         },
         {
             "name": "wp-coding-standards/wpcs",
@@ -571,6 +571,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "squizlabs/php_codesniffer": 20,
         "els/els-php-standard": 20,
         "roave/security-advisories": 20
     },
