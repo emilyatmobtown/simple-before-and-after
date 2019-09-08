@@ -97,7 +97,12 @@ function script_url( $script, $context ) {
 		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the SimpleBeforeAndAfter script loader.' );
 	}
 
-	return SBA_URL . "dist/js/${context}/${script}.js";
+	// Use minified file if possible
+	if ( file_exists( SBA_URL . "dist/js/${context}/${script}.min.js" ) ) {
+		return SBA_URL . "dist/js/${context}/${script}.min.js";
+	} else {
+		return SBA_URL . "dist/js/${context}/${script}.js";
+	}
 
 }
 
@@ -115,7 +120,12 @@ function style_url( $stylesheet, $context ) {
 		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the SimpleBeforeAndAfter stylesheet loader.' );
 	}
 
-	return SBA_URL . "dist/css/${context}/${stylesheet}.css";
+	// Use minified file if possible
+	if ( file_exists( SBA_URL . "dist/css/${context}/${stylesheet}.min.css" ) ) {
+		return SBA_URL . "dist/css/${context}/${stylesheet}.min.css";
+	} else {
+		return SBA_URL . "dist/css/${context}/${stylesheet}.css";
+	}
 
 }
 
