@@ -1,0 +1,5 @@
+# CSS linting config
+
+{
+    "extends": "stylelint-config-wordpress",
+}

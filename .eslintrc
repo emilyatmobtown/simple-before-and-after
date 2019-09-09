@@ -1,0 +1,5 @@
+# JS linting config
+
+{
+    "extends": "eslint-config-wordpress"
+}
