@@ -12,7 +12,7 @@ Create one or more new Before and After posts. Then add Before and After images 
 
 To display the grid on a WordPress page, use the following shortcode:
 ```
-[simple-before-and-after]
+[simple_before_and_after]
 ```
 
 ## Usage for Development
