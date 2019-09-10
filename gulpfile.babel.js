@@ -258,8 +258,10 @@ export const copy = () => {
 export const compress = () => {
 	return src([
 		"**/*",
+		"!bin{,/**}",
 		"!node_modules{,/**}",
 		"!src{,/**}",
+		"!tests{,/**}",
 		"!vendor{,/**}",
 		"!.babelrc",
 		"!.browserslistrc",
@@ -267,6 +269,7 @@ export const compress = () => {
 		"!.gitignore",
 		"!.stylelintrc",
 		"!gulpfile.babel.js",
+		"!phpunit.xml.dist",
 		"!**.zip",
 		"!composer.json",
 		"!composer.lock",
