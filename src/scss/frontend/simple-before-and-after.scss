@@ -78,7 +78,9 @@ html:not(.no-touch) .sba-grid-item::after {
 	font-size: 1.125em;
 	line-height: 1;
 	font-weight: 400;
+	font-style: normal;
 	color: $captionTextColor;
+	text-align: center;
 	text-transform: uppercase;
 	letter-spacing: 0.025em;
 	background-color: $captionBgrdColor;
