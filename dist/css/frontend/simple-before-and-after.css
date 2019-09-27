@@ -1,19 +1,12 @@
-$black: #000;
-$white: #fff;
-$gray: #161616;
-
-$captionTextColor: $black;
-$captionBgrdColor: $white;
-
-$gridItemBorderColor: $gray;
-
-$captionFont: oswald, sans-serif;
-
 .sba-grid {
 	font-size: 16px;
+	display: -ms-flexbox;
 	display: flex;
+	-ms-flex-wrap: wrap;
 	flex-wrap: wrap;
+	-ms-flex-pack: justify;
 	justify-content: space-between;
+	-ms-flex-align: start;
 	align-items: flex-start;
 	margin-bottom: 50px;
 }
@@ -23,7 +16,7 @@ $captionFont: oswald, sans-serif;
 }
 
 .sba-grid-item {
-	border: 10px solid $gridItemBorderColor;
+	border: 10px solid #161616;
 	position: relative;
 	cursor: pointer;
 }
@@ -70,18 +63,19 @@ html:not(.no-touch) .sba-grid-item::after {
 	position: absolute;
 	top: 50%;
 	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 }
 
 .sba-img-caption {
-	font-family: $captionFont;
+	font-family: oswald, sans-serif;
 	font-size: 1.125em;
 	line-height: 1;
 	font-weight: 400;
-	color: $captionTextColor;
+	color: #000;
 	text-transform: uppercase;
 	letter-spacing: 0.025em;
-	background-color: $captionBgrdColor;
+	background-color: #fff;
 	padding: 0.25em 0.5em;
 	position: absolute;
 	top: 10px;
