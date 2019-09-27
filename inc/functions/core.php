@@ -185,6 +185,13 @@ function admin_scripts() {
 function styles() {
 
 	wp_enqueue_style(
+		'sba-google-fonts',
+		'https://fonts.googleapis.com/css?family=Oswald&display=swap',
+		[],
+		SBA_VERSION
+	);
+
+	wp_enqueue_style(
 		'sba-styles',
 		style_url( 'simple-before-and-after', 'frontend' ),
 		[],
