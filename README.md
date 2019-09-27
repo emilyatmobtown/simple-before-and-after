@@ -18,7 +18,7 @@ To display the grid on a WordPress page, use the following shortcode:
 ## Usage for Development
 Clone to a plugins directory:
 ```
-git clone -b https://github.com/emilyatmobtown/simple-before-and-after.git
+git clone -b master https://github.com/emilyatmobtown/simple-before-and-after.git
 ```
 
 Build the development files:
