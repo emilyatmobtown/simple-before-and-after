@@ -21,12 +21,13 @@ function setup() {
 
 	add_action( 'init', $n( 'i18n' ) );
 	add_action( 'init', $n( 'init' ) );
+	add_action( 'init', $n( 'add_image_sizes' ) );
 	add_action( 'wp_enqueue_scripts', $n( 'scripts' ) );
 	add_action( 'wp_enqueue_scripts', $n( 'styles' ) );
 	add_action( 'admin_enqueue_scripts', $n( 'admin_scripts' ) );
 	add_action( 'admin_enqueue_scripts', $n( 'admin_styles' ) );
 
-	// Hook to allow async or defer on asset loading.
+	// Allow async or defer on asset loading.
 	add_filter( 'script_loader_tag', $n( 'script_loader_tag' ), 10, 2 );
 
 	do_action( 'simple_before_and_after_loaded' );
@@ -251,4 +252,12 @@ function script_loader_tag( $tag, $handle ) {
 	}
 
 	return $tag;
+}
+
+/**
+ * Add custom image size to image upload process
+ *
+ */
+function add_image_sizes() {
+	add_image_size( 'sba-grid-image', 485, 200, true );
 }

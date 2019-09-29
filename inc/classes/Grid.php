@@ -96,14 +96,14 @@ class Grid {
 					// translators: This is the caption for the Before image when the grid is displayed.
 					$html .= __( 'Before', 'simple-before-and-after' );
 					$html .= '</span>';
-					$html .= wp_get_attachment_image( $ba_before_id, array( '485', '200' ), false, array( 'class' => 'sba-before-img' ) );
+					$html .= wp_get_attachment_image( $ba_before_id, 'sba-grid-image', false, array( 'class' => 'sba-before-img' ) );
 
 					$ba_after_id = attachment_url_to_postid( $ba_after_url );
 					$html       .= '<span class="sba-img-caption inactive">';
 					// translators: This is the caption for the After image when the grid is displayed.
 					$html .= __( 'After', 'simple-before-and-after' );
 					$html .= '</span>';
-					$html .= wp_get_attachment_image( $ba_after_id, array( '485', '200' ), false, array( 'class' => 'sba-after-img inactive' ) );
+					$html .= wp_get_attachment_image( $ba_after_id, 'sba-grid-image', false, array( 'class' => 'sba-after-img inactive' ) );
 
 					$html .= '</div>'; // .sba-grid-item
 					$html .= '</div>'; // .sba-grid-item-wrapper
