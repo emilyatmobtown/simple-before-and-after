@@ -91,11 +91,11 @@ msgid "After"
 msgstr ""
 
 #. translators: This is the title of the image uploader.
-#: inc/functions/core.php:171
+#: inc/functions/core.php:172
 msgid "Choose or Upload Image"
 msgstr ""
 
 #. translators: This is the button label for the image uploader.
-#: inc/functions/core.php:173
+#: inc/functions/core.php:174
 msgid "Use This Image"
 msgstr ""
