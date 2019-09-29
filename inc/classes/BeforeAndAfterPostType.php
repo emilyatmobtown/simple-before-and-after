@@ -104,7 +104,7 @@ class BeforeAndAfterPostType {
 			array( $this, 'show_before_and_after_meta_box' ),
 			'before_and_after',
 			'normal',
-			'default'
+			'high'
 		);
 	}
 
