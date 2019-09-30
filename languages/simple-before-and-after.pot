@@ -98,12 +98,12 @@ msgid "Simple Before and After Settings"
 msgstr ""
 
 #. translators: This is the label of the Image Width field on the Settings page
-#: inc/classes/Settings.php:104
+#: inc/classes/Settings.php:108
 msgid "Image Width"
 msgstr ""
 
 #. translators: This is the label of the Image Heightx field on the Settings page
-#: inc/classes/Settings.php:113
+#: inc/classes/Settings.php:118
 msgid "Image Height"
 msgstr ""
 

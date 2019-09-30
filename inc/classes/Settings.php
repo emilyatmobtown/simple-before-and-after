@@ -67,8 +67,8 @@ class Settings {
 				esc_html_e( 'Simple Before and After Settings', 'simple-before-and-after' );
 				?>
 			</h1>
-			<form action="options-general.php?page=simple-before-and-after" method="post">
-				<?php settings_fields( 'sba_settings' ); ?>
+			<form action="options.php" method="post">
+				<?php settings_fields( 'simple-before-and-after' ); ?>
 				<?php do_settings_sections( 'simple-before-and-after' ); ?>
 				<?php submit_button(); ?>
 			</form>
@@ -82,7 +82,11 @@ class Settings {
 	 * @since 0.1.1
 	 */
 	public function register_settings() {
-		register_setting( 'sba-settings', 'sba-settings', array( $this, 'sanitize_settings' ) );
+		register_setting(
+			'simple-before-and-after',
+			'sba_settings',
+			array( $this, 'sanitize_settings' )
+		);
 	}
 
 	/**
@@ -104,7 +108,8 @@ class Settings {
 			__( 'Image Width', 'simple-before-and-after' ),
 			array( $this, 'image_width_callback' ),
 			'simple-before-and-after',
-			'sba_setting_section_1'
+			'sba_setting_section_1',
+			array( 'label_for' => 'image_width' )
 		);
 
 		add_settings_field(
@@ -123,12 +128,12 @@ class Settings {
 	 * @since 0.1.1
 	 */
 	public function image_width_callback() {
-		$settings = Utils\get_settings();
-
-		$value = isset( $settings['image_width'] ) ? (int) $settings['image_width'] : (int) SBA_DEFAULT_IMAGE_WIDTH;
+		$settings    = Utils\get_settings();
+		$value       = isset( $settings['image_width'] ) ? $settings['image_width'] : '';
+		$placeholder = SBA_DEFAULT_IMAGE_WIDTH;
 		?>
 
-		<input type="text" id="sba_image_width" name="sba-settings[image_width]" value="<?php echo esc_attr( $value ); ?>">
+		<input type="text" id="image_width" name="sba_settings[image_width]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
 
 		<?php
 	}
@@ -139,15 +144,16 @@ class Settings {
 	 * @since 0.1.1
 	 */
 	public function image_height_callback() {
-		$settings = Utils\get_settings();
-
-		$value = isset( $settings['image_height'] ) ? (int) $settings['image_height'] : (int) SBA_DEFAULT_IMAGE_HEIGHT;
+		$settings    = Utils\get_settings();
+		$value       = isset( $settings['image_height'] ) ? $settings['image_height'] : '';
+		$placeholder = SBA_DEFAULT_IMAGE_HEIGHT;
 		?>
 
-		<input type="text" id="sba_image_height" name="sba-settings[image_height]" value="<?php echo esc_attr( $value ); ?>">
+		<input type="text" id="sba_image_height" name="sba_settings[image_height]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
 
 		<?php
 	}
+
 	/**
 	 * Sanitizes and sets settings
 	 *
@@ -157,16 +163,16 @@ class Settings {
 	public function sanitize_settings( $settings ) {
 		$new_settings = Utils\get_settings();
 
-		if ( ! isset( $settings['image_width'] ) ) {
-			$new_settings['image_width'] = SBA_DEFAULT_IMAGE_WIDTH;
+		if ( isset( $settings['image_width'] ) && ! empty( $settings['image_width'] ) ) {
+			$new_settings['image_width'] = absint( $settings['image_width'] );
 		} else {
-			$new_settings['image_width'] = (int) $settings['image_width'];
+			$new_settings['image_width'] = SBA_DEFAULT_IMAGE_WIDTH;
 		}
 
-		if ( ! isset( $settings['image_height'] ) ) {
-			$new_settings['image_height'] = SBA_DEFAULT_IMAGE_HEIGHT;
+		if ( isset( $settings['image_height'] ) && ! empty( $settings['image_height'] ) ) {
+			$new_settings['image_height'] = absint( $settings['image_height'] );
 		} else {
-			$new_settings['image_height'] = (int) $settings['image_height'];
+			$new_settings['image_height'] = SBA_DEFAULT_IMAGE_HEIGHT;
 		}
 
 		return $new_settings;
