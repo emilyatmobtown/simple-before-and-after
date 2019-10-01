@@ -3,13 +3,15 @@
 namespace SimpleBeforeAndAfter;
 
 use WP_Query;
+use SimpleBeforeAndAfter\Settings as Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Nope!' );
 }
 
 class Grid {
-	protected $total_posts_to_show;
+
+	protected static $defaults;
 
 	/**
 	 * Return singleton instance of class
@@ -29,41 +31,34 @@ class Grid {
 	/**
 	 * Initialize class
 	 *
-	 * @since 0.1.0
+	 * @since 0.1.1
 	 */
 	public function setup() {
-		add_action( 'init', array( $this, 'set_total_posts_to_show' ) );
+		self::set_defaults();
 	}
 
-	public function set_total_posts_to_show() {
-		$this->total_posts_to_show = apply_filters( 'sba_total_posts_to_show', 6 );
-	}
-
-	public function get_total_posts_to_show() {
-		if ( empty( $this->total_posts_to_show ) ) {
-			return null;
-		} else {
-			return $this->total_posts_to_show;
-		}
-	}
-
-	public function get_before_and_after_grid( $args = '' ) {
-		$default_args = array(
+	public function set_defaults() {
+		$settings       = Settings::get_settings( true );
+		self::$defaults = array(
 			'before_and_after_id'         => '',
-			'number_of_before_and_afters' => $this->get_total_posts_to_show(),
+			'number_of_before_and_afters' => $settings['image_total'],
 		);
+	}
 
-		if ( ! empty( $args ) && is_array( $args ) ) {
-			foreach ( $args as $arg_key => $arg_value ) {
-				if ( array_key_exists( $arg_key, $default_args ) ) {
-					$default_args[ $arg_key ] = $arg_value;
-				}
+	public function get_grid( $args = [] ) {
+
+		// Remove empty values in settings to override with defaults
+		$args = array_filter(
+			$args,
+			function( $option ) {
+				return ! empty( $option );
 			}
-		}
+		);
+		$args = wp_parse_args( $args, self::$defaults );
 
 		$query_args = array(
 			'post_type'              => 'before_and_after',
-			'posts_per_page'         => $default_args['number_of_before_and_afters'],
+			'posts_per_page'         => $args['number_of_before_and_afters'],
 			'post_status'            => 'publish',
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,

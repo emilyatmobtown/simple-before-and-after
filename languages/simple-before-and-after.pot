@@ -22,7 +22,7 @@ msgstr ""
 
 #. translators: This is the singular name of the Before and After post type.
 #. translators: This is the name of the settings page in the Settings menu
-#: inc/classes/BeforeAndAfterPostType.php:47, inc/classes/Settings.php:49
+#: inc/classes/BeforeAndAfterPostType.php:47, inc/classes/Settings.php:84
 msgid "Before and After"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgstr ""
 
 #. translators: This is the caption for the Before field on the post edit screen.
 #. translators: This is the caption for the Before image when the grid is displayed.
-#: inc/classes/BeforeAndAfterPostType.php:123, inc/classes/Grid.php:97
+#: inc/classes/BeforeAndAfterPostType.php:123, inc/classes/Grid.php:92
 msgid "Before"
 msgstr ""
 
@@ -87,49 +87,49 @@ msgstr ""
 
 #. translators: This is the caption for the After field on the post edit screen.
 #. translators: This is the caption for the After image when the grid is displayed.
-#: inc/classes/BeforeAndAfterPostType.php:153, inc/classes/Grid.php:104
+#: inc/classes/BeforeAndAfterPostType.php:153, inc/classes/Grid.php:99
 msgid "After"
 msgstr ""
 
 #. translators: This is the title of the settings page
 #. translators: This is the heading of the settings page
-#: inc/classes/Settings.php:47, inc/classes/Settings.php:67
+#: inc/classes/Settings.php:82, inc/classes/Settings.php:102
 msgid "Simple Before and After Settings"
 msgstr ""
 
+#. translators: This is the label of the Number of Images field on the Settings page
+#: inc/classes/Settings.php:144
+msgid "Number of Images"
+msgstr ""
+
 #. translators: This is the label of the Image Width field on the Settings page
-#: inc/classes/Settings.php:108
+#: inc/classes/Settings.php:153
 msgid "Image Width"
 msgstr ""
 
-#. translators: This is the label of the Image Heightx field on the Settings page
-#: inc/classes/Settings.php:118
+#. translators: This is the label of the Image Height field on the Settings page
+#: inc/classes/Settings.php:163
 msgid "Image Height"
 msgstr ""
 
-#. translators: This is the update message for an invalid image dimension.
-#: inc/classes/Settings.php:200
-msgid "No dimension entered. The default value will be used."
-msgstr ""
-
 #. translators: This is the error message for an invalid image dimension.
-#: inc/classes/Settings.php:214
-msgid "Invalid dimension. The default value will be used. Please enter a whole number greater than zero."
-msgstr ""
-
-#. translators: This is the error message for an image dimension that is not a whole number.
-#: inc/classes/Settings.php:229
-msgid "Invalid dimension. The default value will be used. Please enter a whole number."
-msgstr ""
-
-#. translators: This is the error message for an image dimension that is less than one.
-#: inc/classes/Settings.php:244
-msgid "Invalid dimension. The default value will be used. Please enter a number greater than zero."
+#: inc/classes/Settings.php:270
+msgid "Invalid total. The default value will be used. Next time, please use a whole number greater than zero."
 msgstr ""
 
 #. translators: This is the error message for an image dimension that is 9999.
-#: inc/classes/Settings.php:259
-msgid "Invalid dimension. The default value will be used. Please enter a number that is not 9999."
+#: inc/classes/Settings.php:282
+msgid "The image total is too high. The default value will be used. Next time, please use a number that is 50 or less."
+msgstr ""
+
+#. translators: This is the error message for an invalid image dimension.
+#: inc/classes/Settings.php:311
+msgid "Invalid dimension. The default value will be used. Next time, please use a whole number greater than zero. To resize previously uploaded images, regenerate the thumbnails."
+msgstr ""
+
+#. translators: This is the error message for an image dimension that is 9999.
+#: inc/classes/Settings.php:323
+msgid "Invalid dimension. The default value will be used. Next time, please use a number that is not 9999. To resize previously uploaded images, regenerate the thumbnails."
 msgstr ""
 
 #. translators: This is the title of the image uploader.

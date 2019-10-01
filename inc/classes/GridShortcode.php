@@ -48,7 +48,7 @@ class GridShortcode {
 			$tag
 		);
 
-		$html = Grid::factory()->get_before_and_after_grid( $args );
+		$html = Grid::factory()->get_grid( $args );
 		return $html;
 	}
 }

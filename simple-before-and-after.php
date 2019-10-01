@@ -35,7 +35,7 @@ require_once SBA_INC . 'functions/utils.php';
 register_activation_hook( __FILE__, '\SimpleBeforeAndAfter\Core\activate' );
 register_deactivation_hook( __FILE__, '\SimpleBeforeAndAfter\Core\deactivate' );
 
-// Bootstrap.
+// Bootstrap
 Core\setup();
 
 // Load classes
@@ -62,6 +62,9 @@ spl_autoload_register(
 	}
 );
 
+// Set Up Settings Page
+Settings::factory();
+
 // Set Up Before and After Post Type
 BeforeAndAfterPostType::factory();
 
@@ -70,6 +73,3 @@ Grid::factory();
 
 // Set Up Grid Shortcode
 GridShortcode::factory();
-
-// Set Up Settings Page
-Settings::factory();

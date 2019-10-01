@@ -2,13 +2,13 @@
 
 namespace SimpleBeforeAndAfter;
 
-use SimpleBeforeAndAfter\Utils;
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Nope!' );
 }
 
 class Settings {
+
+	protected static $defaults;
 
 	/**
 	 * Return singleton instance of class
@@ -34,6 +34,41 @@ class Settings {
 		add_action( 'admin_menu', array( $this, 'create_settings_page' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'admin_init', array( $this, 'add_settings' ) );
+
+		self::set_defaults();
+	}
+
+	public function set_defaults() {
+		self::$defaults = array(
+			'image_total'  => 6,
+			'image_width'  => 485,
+			'image_height' => 200,
+		);
+	}
+
+	/**
+	 * Get settings with defaults
+	 *
+	 * @param bool $set_default determines whether to override with defaults
+	 * @return array
+	 * @since  0.1.1
+	 */
+	public static function get_settings( $set_default = false ) {
+		$settings = get_option( 'sba_settings', [] );
+
+		// Use defaults where no value is set
+		if ( $set_default ) {
+			// Remove empty values in settings to override with defaults
+			$settings = array_filter(
+				$settings,
+				function( $option ) {
+					return ! empty( $option );
+				}
+			);
+			$settings = wp_parse_args( $settings, self::$defaults );
+		}
+
+		return $settings;
 	}
 
 	/**
@@ -72,6 +107,7 @@ class Settings {
 				<?php do_settings_sections( 'simple-before-and-after' ); ?>
 				<?php submit_button(); ?>
 			</form>
+
 		</div>
 		<?php
 	}
@@ -103,6 +139,15 @@ class Settings {
 		);
 
 		add_settings_field(
+			'image_total',
+			// translators: This is the label of the Number of Images field on the Settings page
+			__( 'Number of Images', 'simple-before-and-after' ),
+			array( $this, 'image_total_callback' ),
+			'simple-before-and-after',
+			'sba_setting_section_1'
+		);
+
+		add_settings_field(
 			'image_width',
 			// translators: This is the label of the Image Width field on the Settings page
 			__( 'Image Width', 'simple-before-and-after' ),
@@ -114,7 +159,7 @@ class Settings {
 
 		add_settings_field(
 			'image_height',
-			// translators: This is the label of the Image Heightx field on the Settings page
+			// translators: This is the label of the Image Height field on the Settings page
 			__( 'Image Height', 'simple-before-and-after' ),
 			array( $this, 'image_height_callback' ),
 			'simple-before-and-after',
@@ -127,14 +172,29 @@ class Settings {
 	 *
 	 * @since 0.1.1
 	 */
+	public function image_total_callback() {
+		$settings    = self::get_settings();
+		$value       = isset( $settings['image_total'] ) ? $settings['image_total'] : '';
+		$placeholder = self::$defaults['image_total'];
+		?>
+
+		<input type="text" id="image_total" name="sba_settings[image_total]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
+
+		<?php
+	}
+
+	/**
+	 * Outputs setting for image width
+	 *
+	 * @since 0.1.1
+	 */
 	public function image_width_callback() {
-		$settings    = Utils\get_settings();
+		$settings    = self::get_settings();
 		$value       = isset( $settings['image_width'] ) ? $settings['image_width'] : '';
-		$placeholder = SBA_DEFAULT_IMAGE_WIDTH;
+		$placeholder = self::$defaults['image_width'];
 		?>
 
 		<input type="text" id="image_width" name="sba_settings[image_width]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>"> px
-
 		<?php
 	}
 
@@ -144,12 +204,13 @@ class Settings {
 	 * @since 0.1.1
 	 */
 	public function image_height_callback() {
-		$settings    = Utils\get_settings();
+		$settings    = self::get_settings();
 		$value       = isset( $settings['image_height'] ) ? $settings['image_height'] : '';
-		$placeholder = SBA_DEFAULT_IMAGE_HEIGHT;
+		$placeholder = self::$defaults['image_height'];
 		?>
 
 		<input type="text" id="sba_image_height" name="sba_settings[image_height]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>"> px
+		<p class="description">Changes to the image size will only apply to images uploaded after the setting is saved. To resize older images, regenerate the thumbnails.</p>
 
 		<?php
 	}
@@ -157,20 +218,27 @@ class Settings {
 	/**
 	 * Sanitizes and sets settings
 	 *
-	 * @param array $settings
+	 * @param array $settings to be sanitized
 	 * @since 0.1.1
 	 */
 	public function sanitize_settings( $settings ) {
-		$new_settings = Utils\get_settings();
+		$new_settings = self::get_settings();
 
-		$validated = self::validate_image_dimension( $settings['image_width'], true );
+		$validated = self::validate_image_total( $settings['image_total'] );
+		if ( ! $validated ) {
+			$new_settings['image_total'] = '';
+		} elseif ( isset( $settings['image_total'] ) ) {
+			$new_settings['image_total'] = absint( $settings['image_total'] );
+		}
+
+		$validated = self::validate_image_dimension( $settings['image_width'] );
 		if ( ! $validated ) {
 			$new_settings['image_width'] = '';
 		} elseif ( isset( $settings['image_width'] ) ) {
 			$new_settings['image_width'] = absint( $settings['image_width'] );
 		}
 
-		$validated = self::validate_image_dimension( $settings['image_height'], true );
+		$validated = self::validate_image_dimension( $settings['image_height'] );
 		if ( ! $validated ) {
 			$new_settings['image_height'] = '';
 		} elseif ( isset( $settings['image_height'] ) ) {
@@ -181,85 +249,80 @@ class Settings {
 	}
 
 	/**
-	 * Validates image dimension.
+	 * Validates image total.
 	 *
-	 * @param $data
+	 * @param $data to be validated
 	 * @return bool
 	 * @since 0.1.1
 	 */
-	public function validate_image_dimension( $data = null, $add_error = false ) {
+	public function validate_image_total( $data = null ) {
 
-		if ( empty( $data ) ) {
-			// Rejects empty data
+		if ( empty( $data ) && '0' !== $data ) {
+			// Rejects empty data without an error message
+			return false;
 
-			if ( $add_error ) {
-				add_settings_error(
-					'sba_settings',
-					esc_attr( 'settings_updated' ),
-					// translators: This is the update message for an invalid image dimension.
-					__( 'No dimension entered. The default value will be used.', 'simple-before-and-after' ),
-					'updated'
-				);
-			}
+		} elseif ( empty( absint( $data ) ) || is_float( $data + 0 ) || $data < 1 ) {
+			// Rejects non-numeric strings, zero, null, false, empty, floats, and negative numbers
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an invalid image dimension.
+				__( 'Invalid total. The default value will be used. Next time, please use a whole number greater than zero.', 'simple-before-and-after' ),
+				'error'
+			);
 
 			return false;
 
-		} elseif ( empty( absint( $data ) ) ) {
-			// Rejects non-numeric strings, zero, null, false, empty
-			if ( $add_error ) {
-				add_settings_error(
-					'sba_settings',
-					esc_attr( 'settings_updated' ),
-					// translators: This is the error message for an invalid image dimension.
-					__( 'Invalid dimension. The default value will be used. Please enter a whole number greater than zero.', 'simple-before-and-after' ),
-					'error'
-				);
-			}
+		} elseif ( $data > 50 ) {
+			// Rejects 9999 to ensure consistent hard crops
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an image dimension that is 9999.
+				__( 'The image total is too high. The default value will be used. Next time, please use a number that is 50 or less.', 'simple-before-and-after' ),
+				'error'
+			);
 
 			return false;
+		}
 
-		} elseif ( is_float( $data + 0 ) ) {
-			// Rejects floats
+		return true;
+	}
 
-			if ( $add_error ) {
-				add_settings_error(
-					'sba_settings',
-					esc_attr( 'settings_updated' ),
-					// translators: This is the error message for an image dimension that is not a whole number.
-					__( 'Invalid dimension. The default value will be used. Please enter a whole number.', 'simple-before-and-after' ),
-					'error'
-				);
-			}
+	/**
+	 * Validates image dimension.
+	 *
+	 * @param $data to be validated
+	 * @return bool
+	 * @since 0.1.1
+	 */
+	public function validate_image_dimension( $data = null ) {
 
+		if ( empty( $data ) && '0' !== $data ) {
+			// Rejects empty data without an error message
 			return false;
 
-		} elseif ( $data < 1 ) {
-			// Rejects negative numbers
-
-			if ( $add_error ) {
-				add_settings_error(
-					'sba_settings',
-					esc_attr( 'settings_updated' ),
-					// translators: This is the error message for an image dimension that is less than one.
-					__( 'Invalid dimension. The default value will be used. Please enter a number greater than zero.', 'simple-before-and-after' ),
-					'error'
-				);
-			}
+		} elseif ( empty( absint( $data ) ) || is_float( $data + 0 ) || $data < 1 ) {
+			// Rejects non-numeric strings, zero, null, false, empty, floats, and negative numbers
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an invalid image dimension.
+				__( 'Invalid dimension. The default value will be used. Next time, please use a whole number greater than zero. To resize previously uploaded images, regenerate the thumbnails.', 'simple-before-and-after' ),
+				'error'
+			);
 
 			return false;
 
 		} elseif ( 9999 === $data ) {
 			// Rejects 9999 to ensure consistent hard crops
-
-			if ( $add_error ) {
-				add_settings_error(
-					'sba_settings',
-					esc_attr( 'settings_updated' ),
-					// translators: This is the error message for an image dimension that is 9999.
-					__( 'Invalid dimension. The default value will be used. Please enter a number that is not 9999.', 'simple-before-and-after' ),
-					'error'
-				);
-			}
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an image dimension that is 9999.
+				__( 'Invalid dimension. The default value will be used. Next time, please use a number that is not 9999. To resize previously uploaded images, regenerate the thumbnails.', 'simple-before-and-after' ),
+				'error'
+			);
 
 			return false;
 		}
