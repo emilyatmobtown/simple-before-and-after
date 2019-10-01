@@ -133,7 +133,7 @@ class Settings {
 		$placeholder = SBA_DEFAULT_IMAGE_WIDTH;
 		?>
 
-		<input type="text" id="image_width" name="sba_settings[image_width]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
+		<input type="text" id="image_width" name="sba_settings[image_width]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>"> px
 
 		<?php
 	}
@@ -149,7 +149,7 @@ class Settings {
 		$placeholder = SBA_DEFAULT_IMAGE_HEIGHT;
 		?>
 
-		<input type="text" id="sba_image_height" name="sba_settings[image_height]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
+		<input type="text" id="sba_image_height" name="sba_settings[image_height]" placeholder="Default: <?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>"> px
 
 		<?php
 	}
@@ -163,18 +163,98 @@ class Settings {
 	public function sanitize_settings( $settings ) {
 		$new_settings = Utils\get_settings();
 
-		if ( isset( $settings['image_width'] ) && ! empty( $settings['image_width'] ) ) {
+		$validated = $this->validate_image_dimension( $settings['image_width'] );
+		if ( ! $validated || empty( $settings['image_width'] ) ) {
+			$new_settings['image_width'] = '';
+		} elseif ( isset( $settings['image_width'] ) ) {
 			$new_settings['image_width'] = absint( $settings['image_width'] );
-		} else {
-			$new_settings['image_width'] = SBA_DEFAULT_IMAGE_WIDTH;
 		}
 
-		if ( isset( $settings['image_height'] ) && ! empty( $settings['image_height'] ) ) {
+		$validated = $this->validate_image_dimension( $settings['image_height'] );
+		if ( ! $validated || empty( $settings['image_height'] ) ) {
+			$new_settings['image_height'] = '';
+		} elseif ( isset( $settings['image_height'] ) ) {
 			$new_settings['image_height'] = absint( $settings['image_height'] );
-		} else {
-			$new_settings['image_height'] = SBA_DEFAULT_IMAGE_HEIGHT;
 		}
 
 		return $new_settings;
+	}
+
+	/**
+	 * Validates image dimension.
+	 *
+	 * @param $data
+	 * @return bool
+	 * @since 0.1.1
+	 */
+	public function validate_image_dimension( $data = null ) {
+
+		if ( empty( $data ) ) {
+
+			// Rejects empty data
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the update message for an invalid image dimension.
+				__( 'No dimension entered. The default value will be used.', 'simple-before-and-after' ),
+				'updated'
+			);
+
+			return false;
+
+		} elseif ( empty( absint( $data ) ) ) {
+
+			// Rejects non-numeric strings, zero, null, false, empty
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an invalid image dimension.
+				__( 'Invalid dimension. Please enter a whole number greater than zero.', 'simple-before-and-after' ),
+				'error'
+			);
+
+			return false;
+
+		} elseif ( is_float( $data + 0 ) ) {
+
+			// Rejects floats
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an image dimension that is not a whole number.
+				__( 'Invalid dimension. Please enter a whole number.', 'simple-before-and-after' ),
+				'error'
+			);
+
+			return false;
+
+		} elseif ( $data < 1 ) {
+
+			// Rejects negative numbers
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an image dimension that is less than one.
+				__( 'Invalid dimension. Please enter a number greater than zero.', 'simple-before-and-after' ),
+				'error'
+			);
+
+			return false;
+
+		} elseif ( 9999 === $data ) {
+
+			// Rejects 9999 to ensure consistent hard crops
+			add_settings_error(
+				'sba_settings',
+				esc_attr( 'settings_updated' ),
+				// translators: This is the error message for an image dimension that is 9999.
+				__( 'Invalid dimension. Please enter a number that is not 9999.', 'simple-before-and-after' ),
+				'error'
+			);
+
+			return false;
+		}
+
+		return true;
 	}
 }
