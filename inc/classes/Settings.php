@@ -163,15 +163,15 @@ class Settings {
 	public function sanitize_settings( $settings ) {
 		$new_settings = Utils\get_settings();
 
-		$validated = $this->validate_image_dimension( $settings['image_width'] );
-		if ( ! $validated || empty( $settings['image_width'] ) ) {
+		$validated = self::validate_image_dimension( $settings['image_width'], true );
+		if ( ! $validated ) {
 			$new_settings['image_width'] = '';
 		} elseif ( isset( $settings['image_width'] ) ) {
 			$new_settings['image_width'] = absint( $settings['image_width'] );
 		}
 
-		$validated = $this->validate_image_dimension( $settings['image_height'] );
-		if ( ! $validated || empty( $settings['image_height'] ) ) {
+		$validated = self::validate_image_dimension( $settings['image_height'], true );
+		if ( ! $validated ) {
 			$new_settings['image_height'] = '';
 		} elseif ( isset( $settings['image_height'] ) ) {
 			$new_settings['image_height'] = absint( $settings['image_height'] );
@@ -187,70 +187,79 @@ class Settings {
 	 * @return bool
 	 * @since 0.1.1
 	 */
-	public function validate_image_dimension( $data = null ) {
+	public function validate_image_dimension( $data = null, $add_error = false ) {
 
 		if ( empty( $data ) ) {
-
 			// Rejects empty data
-			add_settings_error(
-				'sba_settings',
-				esc_attr( 'settings_updated' ),
-				// translators: This is the update message for an invalid image dimension.
-				__( 'No dimension entered. The default value will be used.', 'simple-before-and-after' ),
-				'updated'
-			);
+
+			if ( $add_error ) {
+				add_settings_error(
+					'sba_settings',
+					esc_attr( 'settings_updated' ),
+					// translators: This is the update message for an invalid image dimension.
+					__( 'No dimension entered. The default value will be used.', 'simple-before-and-after' ),
+					'updated'
+				);
+			}
 
 			return false;
 
 		} elseif ( empty( absint( $data ) ) ) {
-
 			// Rejects non-numeric strings, zero, null, false, empty
-			add_settings_error(
-				'sba_settings',
-				esc_attr( 'settings_updated' ),
-				// translators: This is the error message for an invalid image dimension.
-				__( 'Invalid dimension. Please enter a whole number greater than zero.', 'simple-before-and-after' ),
-				'error'
-			);
+			if ( $add_error ) {
+				add_settings_error(
+					'sba_settings',
+					esc_attr( 'settings_updated' ),
+					// translators: This is the error message for an invalid image dimension.
+					__( 'Invalid dimension. The default value will be used. Please enter a whole number greater than zero.', 'simple-before-and-after' ),
+					'error'
+				);
+			}
 
 			return false;
 
 		} elseif ( is_float( $data + 0 ) ) {
-
 			// Rejects floats
-			add_settings_error(
-				'sba_settings',
-				esc_attr( 'settings_updated' ),
-				// translators: This is the error message for an image dimension that is not a whole number.
-				__( 'Invalid dimension. Please enter a whole number.', 'simple-before-and-after' ),
-				'error'
-			);
+
+			if ( $add_error ) {
+				add_settings_error(
+					'sba_settings',
+					esc_attr( 'settings_updated' ),
+					// translators: This is the error message for an image dimension that is not a whole number.
+					__( 'Invalid dimension. The default value will be used. Please enter a whole number.', 'simple-before-and-after' ),
+					'error'
+				);
+			}
 
 			return false;
 
 		} elseif ( $data < 1 ) {
-
 			// Rejects negative numbers
-			add_settings_error(
-				'sba_settings',
-				esc_attr( 'settings_updated' ),
-				// translators: This is the error message for an image dimension that is less than one.
-				__( 'Invalid dimension. Please enter a number greater than zero.', 'simple-before-and-after' ),
-				'error'
-			);
+
+			if ( $add_error ) {
+				add_settings_error(
+					'sba_settings',
+					esc_attr( 'settings_updated' ),
+					// translators: This is the error message for an image dimension that is less than one.
+					__( 'Invalid dimension. The default value will be used. Please enter a number greater than zero.', 'simple-before-and-after' ),
+					'error'
+				);
+			}
 
 			return false;
 
 		} elseif ( 9999 === $data ) {
-
 			// Rejects 9999 to ensure consistent hard crops
-			add_settings_error(
-				'sba_settings',
-				esc_attr( 'settings_updated' ),
-				// translators: This is the error message for an image dimension that is 9999.
-				__( 'Invalid dimension. Please enter a number that is not 9999.', 'simple-before-and-after' ),
-				'error'
-			);
+
+			if ( $add_error ) {
+				add_settings_error(
+					'sba_settings',
+					esc_attr( 'settings_updated' ),
+					// translators: This is the error message for an image dimension that is 9999.
+					__( 'Invalid dimension. The default value will be used. Please enter a number that is not 9999.', 'simple-before-and-after' ),
+					'error'
+				);
+			}
 
 			return false;
 		}

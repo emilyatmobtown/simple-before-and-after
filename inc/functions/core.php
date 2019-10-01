@@ -7,6 +7,7 @@
 
 namespace SimpleBeforeAndAfter\Core;
 
+use SimpleBeforeAndAfter\Utils;
 use \WP_Error as WP_Error;
 
 /**
@@ -259,5 +260,6 @@ function script_loader_tag( $tag, $handle ) {
  *
  */
 function add_image_sizes() {
-	add_image_size( 'sba-grid-image', 485, 200, true );
+	$settings = Utils\get_settings( true );
+	add_image_size( 'sba-grid-image', $settings['image_width'], $settings['image_height'], true );
 }

@@ -21,14 +21,25 @@ define( 'SBA_DEFAULT_IMAGE_HEIGHT', 200 );
  * @return array
  * @since  0.1.1
  */
-function get_settings() {
+function get_settings( $set_default = false ) {
 	$defaults = [
 		'image_width'  => SBA_DEFAULT_IMAGE_WIDTH,
 		'image_height' => SBA_DEFAULT_IMAGE_HEIGHT,
 	];
 
 	$settings = get_option( 'sba_settings', [] );
-	$settings = wp_parse_args( $settings, $defaults );
+
+	// Use defaults where no value is set
+	if ( $set_default ) {
+		// Remove empty values in settings to override with defaults
+		$settings = array_filter(
+			$settings,
+			function( $option ) {
+				return ! empty( $option );
+			}
+		);
+		$settings = wp_parse_args( $settings, $defaults );
+	}
 
 	return $settings;
 }
