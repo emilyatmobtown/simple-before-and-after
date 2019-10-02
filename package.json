@@ -1,13 +1,20 @@
 {
   "name": "simple-before-and-after",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "author": "Emily Leffler Schulman",
   "description": "Displays a simple grid that swaps Before and After images.",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/emilyatmobtown/simple-before-and-after.git"
+  },
+  "bugs": {
+    "url": "https://github.com/emilyatmobtown/simple-before-and-after/issues"
+  },
   "scripts": {
     "start": "gulp",
     "build": "gulp build --prod"
   },
-  "author": "Emily Leffler Schulman",
-  "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.2",
     "@babel/preset-env": "^7.6.2",
