@@ -32,7 +32,6 @@ class BeforeAndAfterPostType {
 		add_action( 'init', array( $this, 'register_before_and_after_post_type' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_before_and_after_meta_boxes' ) );
 		add_action( 'save_post_before_and_after', array( $this, 'save_before_and_after' ) );
-		add_action( 'simple_before_and_after_init', array( $this, 'register_before_and_after_post_type' ) );
 	}
 
 	/**

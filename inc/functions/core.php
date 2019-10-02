@@ -7,6 +7,7 @@
 
 namespace SimpleBeforeAndAfter\Core;
 
+use SimpleBeforeAndAfter\Settings as Settings;
 use \WP_Error as WP_Error;
 
 /**
@@ -227,6 +228,7 @@ function admin_styles() {
  * @param string $tag    The script tag.
  * @param string $handle The script handle.
  * @return string
+ * @since 0.1.0
  */
 function script_loader_tag( $tag, $handle ) {
 	$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
@@ -257,7 +259,9 @@ function script_loader_tag( $tag, $handle ) {
 /**
  * Add custom image size to image upload process
  *
+ * @since 0.1.1
  */
 function add_image_sizes() {
-	add_image_size( 'sba-grid-image', 485, 200, true );
+	$settings = Settings::get_settings( true );
+	add_image_size( 'sba-grid-image', $settings['image_width'], $settings['image_height'], true );
 }
