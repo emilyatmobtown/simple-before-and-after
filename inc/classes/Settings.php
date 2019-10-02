@@ -263,7 +263,7 @@ class Settings {
 
 		// Set placeholder to default value
 		// translators: This is the label for default values in the text field placeholder, i.e. Default: 485px
-		$placeholder  = __( ' Default', 'simple-before-and-after' );
+		$placeholder  = __( 'Default', 'simple-before-and-after' );
 		$placeholder .= ': ';
 		$placeholder .= self::$defaults[ $name ];
 
