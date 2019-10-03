@@ -1,6 +1,6 @@
 {
   "name": "simple-before-and-after",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Emily Leffler Schulman",
   "description": "Displays a simple grid that swaps Before and After images.",
   "license": "ISC",

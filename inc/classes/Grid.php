@@ -38,16 +38,19 @@ class Grid {
 	}
 
 	public function set_defaults() {
-		$settings       = Settings::get_settings( true );
+		$settings       = Settings\get_saved_settings( true );
 		self::$defaults = array(
-			'before_and_after_id' => '',
-			'item_total'          => $settings['item_total'],
-			'before_label'        => $settings['before_label'],
-			'after_label'         => $settings['after_label'],
+			'ids'          => '',
+			'item_total'   => $settings['item_total'],
+			'image_width'  => $settings['image_width'],
+			'image_height' => $settings['image_height'],
+			'before_label' => $settings['before_label'],
+			'after_label'  => $settings['after_label'],
 		);
 	}
 
 	public function get_grid( $args = [] ) {
+		$defaults = Settings\get_defaults();
 
 		// Remove empty values in settings to override with defaults
 		$args = array_filter(
@@ -56,7 +59,7 @@ class Grid {
 				return ! empty( $option );
 			}
 		);
-		$args = wp_parse_args( $args, self::$defaults );
+		$args = wp_parse_args( $args, $defaults );
 
 		$query_args = array(
 			'post_type'              => 'before_and_after',
@@ -66,9 +69,11 @@ class Grid {
 			'update_post_term_cache' => false,
 		);
 
-		// If we only passed in one post ID
-		if ( ! empty( $args['before_and_after_id'] ) ) {
-			$query_args['include'] = $args['before_and_after_id'];
+		// Add query argument if specific post IDs were passed in
+		if ( ! empty( $args['ids'] ) ) {
+			// Strip white space from ids string and convert to array
+			$ids                    = preg_replace( '/\s+/', '', $args['ids'] );
+			$query_args['post__in'] = explode( ',', $ids );
 		}
 
 		$html     = '';
@@ -79,6 +84,7 @@ class Grid {
 
 			while ( $ba_query->have_posts() ) {
 				$ba_query->the_post();
+
 				$post_id      = $ba_query->post->ID;
 				$before_url   = get_post_meta( $post_id, 'sba_before_img', true );
 				$after_url    = get_post_meta( $post_id, 'sba_after_img', true );

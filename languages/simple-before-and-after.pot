@@ -13,17 +13,100 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#. translators: This is the title of the image uploader.
+#: inc/core.php:171
+msgid "Choose or Upload Image"
+msgstr ""
+
+#. translators: This is the button label for the image uploader.
+#: inc/core.php:173
+msgid "Use This Image"
+msgstr ""
+
+#. translators: This is the default caption on the Before image in the grid.
+#. translators: This is the caption for the Before field on the post edit screen.
+#: inc/settings.php:32, inc/classes/BeforeAndAfterPostType.php:123
+msgid "Before"
+msgstr ""
+
+#. translators: This is the default caption on the After image in the grid.
+#. translators: This is the caption for the After field on the post edit screen.
+#: inc/settings.php:34, inc/classes/BeforeAndAfterPostType.php:153
+msgid "After"
+msgstr ""
+
+#. translators: This is the label for the Max Items in a Grid setting.
+#: inc/settings.php:49
+msgid "Max Items in a Grid"
+msgstr ""
+
+#. translators: This is the label of the Image Width field on the Settings page.
+#: inc/settings.php:51
+msgid "Image Width"
+msgstr ""
+
+#. translators: This is the label of the Image Height field on the Settings page.
+#: inc/settings.php:53
+msgid "Image Height"
+msgstr ""
+
+#. translators: This is the default caption on the Before image in the grid.
+#: inc/settings.php:55
+msgid "Before Label"
+msgstr ""
+
+#. translators: This is the default caption on the After image in the grid.
+#: inc/settings.php:57
+msgid "After Label"
+msgstr ""
+
+#. translators: This is the title of the settings page.
+#. translators: This is the heading of the settings page.
+#: inc/settings.php:99, inc/settings.php:119
+msgid "Simple Before and After Settings"
+msgstr ""
+
+#. translators: This is the name of the settings page in the Settings menu.
+#. translators: This is the singular name of the Before and After post type.
+#: inc/settings.php:101, inc/classes/BeforeAndAfterPostType.php:47
+msgid "Before and After"
+msgstr ""
+
+#. translators: This is the label for default values in the text field placeholder, i.e. Default: 485px
+#: inc/settings.php:272
+msgid "Default"
+msgstr ""
+
+#. translators: This is the error message for an invalid image dimension.
+#: inc/settings.php:371
+msgid "Invalid total. The default value will be used. Next time, please use a whole number greater than zero."
+msgstr ""
+
+#. translators: This is the error message for an image dimension that is 9999.
+#: inc/settings.php:378
+msgid "The image total is too high. The default value will be used. Next time, please use a number that is 50 or less."
+msgstr ""
+
+#. translators: This is the error message for an invalid image dimension.
+#: inc/settings.php:445
+msgid "Invalid dimension. The default value will be used. Next time, please use a whole number greater than zero. To resize previously uploaded images, regenerate the thumbnails."
+msgstr ""
+
+#. translators: This is the error message for an image dimension that is 9999.
+#: inc/settings.php:452
+msgid "Invalid dimension. The default value will be used. Next time, please use a number that is not 9999. To resize previously uploaded images, regenerate the thumbnails."
+msgstr ""
+
+#. translators: This is the error message for an invalid text label.
+#: inc/settings.php:519
+msgid "Invalid text label. The default value will be used."
+msgstr ""
+
 #. translators: This is the name of the Before and After post type.
 #. translators: This is the name of the menu item for Before and After posts.
 #. translators: This is the label for Before and After posts.
 #: inc/classes/BeforeAndAfterPostType.php:45, inc/classes/BeforeAndAfterPostType.php:67, inc/classes/BeforeAndAfterPostType.php:72
 msgid "Before and Afters"
-msgstr ""
-
-#. translators: This is the singular name of the Before and After post type.
-#. translators: This is the name of the settings page in the Settings menu.
-#: inc/classes/BeforeAndAfterPostType.php:47, inc/classes/Settings.php:105
-msgid "Before and After"
 msgstr ""
 
 #. translators: This is a label to add a new Before and After post.
@@ -67,12 +150,6 @@ msgstr ""
 msgid "No Before and Afters Found in Trash"
 msgstr ""
 
-#. translators: This is the caption for the Before field on the post edit screen.
-#. translators: This is the default caption on the Before image in the grid.
-#: inc/classes/BeforeAndAfterPostType.php:123, inc/classes/Settings.php:49
-msgid "Before"
-msgstr ""
-
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
 #. translators: This is the label for the button that opens the media loader on the post edit screen.
 #: inc/classes/BeforeAndAfterPostType.php:139, inc/classes/BeforeAndAfterPostType.php:169
@@ -83,81 +160,4 @@ msgstr ""
 #. translators: This is the label for the button that deletes the image on the post edit screen.
 #: inc/classes/BeforeAndAfterPostType.php:145, inc/classes/BeforeAndAfterPostType.php:175
 msgid "Delete Image"
-msgstr ""
-
-#. translators: This is the caption for the After field on the post edit screen.
-#. translators: This is the default caption on the After image in the grid.
-#: inc/classes/BeforeAndAfterPostType.php:153, inc/classes/Settings.php:51
-msgid "After"
-msgstr ""
-
-#. translators: This is the label for the Max Items in a Grid setting.
-#: inc/classes/Settings.php:58
-msgid "Max Items in a Grid"
-msgstr ""
-
-#. translators: This is the label of the Image Width field on the Settings page.
-#: inc/classes/Settings.php:60
-msgid "Image Width"
-msgstr ""
-
-#. translators: This is the label of the Image Height field on the Settings page.
-#: inc/classes/Settings.php:62
-msgid "Image Height"
-msgstr ""
-
-#. translators: This is the default caption on the Before image in the grid.
-#: inc/classes/Settings.php:64
-msgid "Before Label"
-msgstr ""
-
-#. translators: This is the default caption on the After image in the grid.
-#: inc/classes/Settings.php:66
-msgid "After Label"
-msgstr ""
-
-#. translators: This is the title of the settings page.
-#. translators: This is the heading of the settings page.
-#: inc/classes/Settings.php:103, inc/classes/Settings.php:123
-msgid "Simple Before and After Settings"
-msgstr ""
-
-#. translators: This is the label for default values in the text field placeholder, i.e. Default: 485px
-#: inc/classes/Settings.php:266
-msgid " Default"
-msgstr ""
-
-#. translators: This is the error message for an invalid image dimension.
-#: inc/classes/Settings.php:362
-msgid "Invalid total. The default value will be used. Next time, please use a whole number greater than zero."
-msgstr ""
-
-#. translators: This is the error message for an image dimension that is 9999.
-#: inc/classes/Settings.php:369
-msgid "The image total is too high. The default value will be used. Next time, please use a number that is 50 or less."
-msgstr ""
-
-#. translators: This is the error message for an invalid image dimension.
-#: inc/classes/Settings.php:429
-msgid "Invalid dimension. The default value will be used. Next time, please use a whole number greater than zero. To resize previously uploaded images, regenerate the thumbnails."
-msgstr ""
-
-#. translators: This is the error message for an image dimension that is 9999.
-#: inc/classes/Settings.php:436
-msgid "Invalid dimension. The default value will be used. Next time, please use a number that is not 9999. To resize previously uploaded images, regenerate the thumbnails."
-msgstr ""
-
-#. translators: This is the error message for an invalid text label.
-#: inc/classes/Settings.php:496
-msgid "Invalid text label. The default value will be used."
-msgstr ""
-
-#. translators: This is the title of the image uploader.
-#: inc/functions/core.php:173
-msgid "Choose or Upload Image"
-msgstr ""
-
-#. translators: This is the button label for the image uploader.
-#: inc/functions/core.php:175
-msgid "Use This Image"
 msgstr ""

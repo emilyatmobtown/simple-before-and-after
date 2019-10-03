@@ -12,7 +12,7 @@ class BeforeAndAfterPostType {
 	 * Return singleton instance of class
 	 *
 	 * @return self
-	 * @since 0.1.0
+	 * @since  0.1.0
 	 */
 	public static function factory() {
 		static $instance = false;

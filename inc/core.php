@@ -13,11 +13,11 @@ use \WP_Error as WP_Error;
 /**
  * Set-up routine
  *
- * @return void
+ * @since 0.1.0
  */
 function setup() {
 	$n = function( $function ) {
-		return __NAMESPACE__ . "\\$function";
+		return __NAMESPACE__ . '\\' . $function;
 	};
 
 	add_action( 'init', $n( 'i18n' ) );
@@ -37,7 +37,7 @@ function setup() {
 /**
  * Registers the textdomain.
  *
- * @return void
+ * @since 0.1.0
  */
 function i18n() {
 	$locale = apply_filters( 'plugin_locale', get_locale(), 'simple-before-and-after' );
@@ -48,7 +48,7 @@ function i18n() {
 /**
  * Initializes the plugin and fires an action other plugins can hook into.
  *
- * @return void
+ * @since 0.1.0
  */
 function init() {
 	do_action( 'simple_before_and_after_init' );
@@ -57,7 +57,7 @@ function init() {
 /**
  * Activate the plugin
  *
- * @return void
+ * @since 0.1.0
  */
 function activate() {
 	// First load the init scripts in case any rewrite functionality is being loaded
@@ -68,8 +68,7 @@ function activate() {
 /**
  * Deactivate the plugin
  *
- *
- * @return void
+ * @since 0.1.0
  */
 function deactivate() {
 	flush_rewrite_rules();
@@ -79,7 +78,7 @@ function deactivate() {
 /**
  * The list of known contexts for enqueuing scripts/styles.
  *
- * @return array
+ * @since 0.1.0
  */
 function get_enqueue_contexts() {
 	return [ 'admin', 'frontend' ];
@@ -88,15 +87,15 @@ function get_enqueue_contexts() {
 /**
  * Generate a URL to a script, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $script Script file name (no .js extension)
- * @param string $context Context for the script ('admin', 'frontend')
- *
+ * @param  string          $script Script file name (no .js extension)
+ * @param  string          $context Context for the script ('admin', 'frontend')
  * @return string|WP_Error URL
+ * @since  0.1.0
  */
 function script_url( $script, $context ) {
 
 	if ( ! in_array( $context, get_enqueue_contexts(), true ) ) {
-		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the SimpleBeforeAndAfter script loader.' );
+		return new WP_Error( 'invalid_enqueue_context', 'Invalid $context specified in the Simple Before And After script loader.' );
 	}
 
 	// Use minified file if possible
@@ -105,16 +104,15 @@ function script_url( $script, $context ) {
 	} else {
 		return SBA_URL . "dist/js/${context}/${script}.js";
 	}
-
 }
 
 /**
  * Generate a URL to a stylesheet, taking into account whether SCRIPT_DEBUG is enabled.
  *
- * @param string $stylesheet Stylesheet file name (no .css extension)
- * @param string $context Context for the script ('admin', 'frontend')
- *
- * @return string URL
+ * @param  string          $stylesheet Stylesheet file name (no .css extension)
+ * @param  string          $context Context for the script ('admin', 'frontend')
+ * @return string|WP_Error URL
+ * @since  0.1.0
  */
 function style_url( $stylesheet, $context ) {
 
@@ -134,7 +132,7 @@ function style_url( $stylesheet, $context ) {
 /**
  * Enqueue scripts for front-end.
  *
- * @return void
+ * @since 0.1.0
  */
 function scripts() {
 
@@ -151,7 +149,7 @@ function scripts() {
 /**
  * Enqueue scripts for admin.
  *
- * @return void
+ * @since 0.1.0
  */
 function admin_scripts() {
 	global $typenow;
@@ -182,7 +180,7 @@ function admin_scripts() {
 /**
  * Enqueue styles for front-end.
  *
- * @return void
+ * @since 0.1.0
  */
 function styles() {
 
@@ -205,7 +203,7 @@ function styles() {
 /**
  * Enqueue styles for admin.
  *
- * @return void
+ * @since 0.1.0
  */
 function admin_styles() {
 	global $typenow;
@@ -224,11 +222,11 @@ function admin_styles() {
 /**
  * Add async/defer attributes to enqueued scripts that have the specified script_execution flag.
  *
- * @link https://core.trac.wordpress.org/ticket/12009
- * @param string $tag    The script tag.
- * @param string $handle The script handle.
+ * @link   https://core.trac.wordpress.org/ticket/12009
+ * @param  string $tag    The script tag.
+ * @param  string $handle The script handle.
  * @return string
- * @since 0.1.0
+ * @since  0.1.0
  */
 function script_loader_tag( $tag, $handle ) {
 	$script_execution = wp_scripts()->get_data( $handle, 'script_execution' );
@@ -262,6 +260,9 @@ function script_loader_tag( $tag, $handle ) {
  * @since 0.1.1
  */
 function add_image_sizes() {
-	$settings = Settings::get_settings( true );
-	add_image_size( 'sba-grid-image', $settings['image_width'], $settings['image_height'], true );
+	$settings = Settings\get_saved_settings( true );
+
+	if ( ! empty( $settings['image_width'] && ! empty( $settings['image_height'] ) ) ) {
+		add_image_size( 'sba-grid-image', $settings['image_width'], $settings['image_height'], true );
+	}
 }
