@@ -260,7 +260,7 @@ function script_loader_tag( $tag, $handle ) {
  * @since 0.1.1
  */
 function add_image_sizes() {
-	$settings = Settings\get_saved_settings( true );
+	$settings = Settings\get_global_settings( true );
 
 	if ( ! empty( $settings['image_width'] && ! empty( $settings['image_height'] ) ) ) {
 		add_image_size( 'sba-grid-image', $settings['image_width'], $settings['image_height'], true );

@@ -73,32 +73,32 @@ msgid "Before and After"
 msgstr ""
 
 #. translators: This is the label for default values in the text field placeholder, i.e. Default: 485px
-#: inc/settings.php:272
+#: inc/settings.php:273
 msgid "Default"
 msgstr ""
 
 #. translators: This is the error message for an invalid image dimension.
-#: inc/settings.php:371
+#: inc/settings.php:375
 msgid "Invalid total. The default value will be used. Next time, please use a whole number greater than zero."
 msgstr ""
 
 #. translators: This is the error message for an image dimension that is 9999.
-#: inc/settings.php:378
+#: inc/settings.php:382
 msgid "The image total is too high. The default value will be used. Next time, please use a number that is 50 or less."
 msgstr ""
 
 #. translators: This is the error message for an invalid image dimension.
-#: inc/settings.php:445
+#: inc/settings.php:450
 msgid "Invalid dimension. The default value will be used. Next time, please use a whole number greater than zero. To resize previously uploaded images, regenerate the thumbnails."
 msgstr ""
 
 #. translators: This is the error message for an image dimension that is 9999.
-#: inc/settings.php:452
+#: inc/settings.php:457
 msgid "Invalid dimension. The default value will be used. Next time, please use a number that is not 9999. To resize previously uploaded images, regenerate the thumbnails."
 msgstr ""
 
 #. translators: This is the error message for an invalid text label.
-#: inc/settings.php:519
+#: inc/settings.php:524
 msgid "Invalid text label. The default value will be used."
 msgstr ""
 

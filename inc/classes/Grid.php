@@ -3,7 +3,7 @@
 namespace SimpleBeforeAndAfter;
 
 use WP_Query;
-use SimpleBeforeAndAfter\Settings as Settings;
+use SimpleBeforeAndAfter\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Nope!' );
@@ -11,7 +11,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class Grid {
 
-	protected static $defaults;
+	/**
+	 * Holds the defaults for the grid, which combine global custom and default
+	 * settings.
+	 *
+	 * @var $grid_defaults
+	 * @since 0.1.0
+	 */
+	protected static $grid_defaults;
+
+	/**
+	 * Holds the settings for the grid, which combine the grid's defaults and
+	 * locally set settings, i.e. shortcode attributes.
+	 *
+	 * @var $grid_defaults
+	 * @since 0.1.2
+	 */
+	protected static $grid_settings;
 
 	/**
 	 * Return singleton instance of class
@@ -34,33 +50,72 @@ class Grid {
 	 * @since 0.1.1
 	 */
 	public function setup() {
-		self::set_defaults();
+		self::set_grid_defaults();
 	}
 
-	public function set_defaults() {
-		$settings       = Settings\get_saved_settings( true );
-		self::$defaults = array(
+	/**
+	 * Set defaults for grid
+	 *
+	 * @since 0.1.1
+	 */
+	public function set_grid_defaults() {
+		// Get the global settings, using the global defaults if no custom
+		// globals are set
+		$global_settings = Settings\get_global_settings( true );
+
+		// Set the grid's defaults to the global settings
+		self::$grid_defaults = array(
 			'ids'          => '',
-			'item_total'   => $settings['item_total'],
-			'image_width'  => $settings['image_width'],
-			'image_height' => $settings['image_height'],
-			'before_label' => $settings['before_label'],
-			'after_label'  => $settings['after_label'],
+			'item_total'   => $global_settings['item_total'],
+			'image_width'  => $global_settings['image_width'],
+			'image_height' => $global_settings['image_height'],
+			'before_label' => $global_settings['before_label'],
+			'after_label'  => $global_settings['after_label'],
 		);
 	}
 
-	public function get_grid( $args = [] ) {
-		$defaults = Settings\get_defaults();
+	/**
+	 * Set settings for grid
+	 *
+	 * @since 0.1.1
+	 */
+	public function set_grid_settings( $local_settings = [] ) {
+		// Set the grid's settings to the grid's defaults, which came from the
+		// global custom and default settings
+		self::$grid_settings = self::$grid_defaults;
 
-		// Remove empty values in settings to override with defaults
-		$args = array_filter(
-			$args,
-			function( $option ) {
-				return ! empty( $option );
-			}
-		);
-		$args = wp_parse_args( $args, $defaults );
+		// If there are local settings
+		if ( ! empty( $local_settings ) ) {
 
+			// Remove empty values in local settings to override
+			$local_settings = array_filter(
+				$local_settings,
+				function( $option ) {
+					return ! empty( $option );
+				}
+			);
+
+			// Set the grid's settings to the local settings. If empty, override
+			// with the grid's settings, which came from the grid's defaults
+			self::$grid_settings = wp_parse_args( $local_settings, self::$grid_settings );
+		}
+	}
+
+	/**
+	 * Get HTML for grid
+	 *
+	 * @param  array  $args
+	 * @return string $html
+	 * @since  0.1.1
+	 */
+	public function get_grid( $local_settings = [] ) {
+		// Pass the local settings to the grid's settings
+		self::set_grid_settings( $local_settings );
+
+		// Set $args to the grid's settings
+		$args = self::$grid_settings;
+
+		// Set up query args
 		$query_args = array(
 			'post_type'              => 'before_and_after',
 			'posts_per_page'         => $args['item_total'],

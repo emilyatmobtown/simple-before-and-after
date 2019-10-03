@@ -23,7 +23,7 @@ function setup() {
  * @return string $defaults
  * @since  0.1.2
  */
-function get_defaults() {
+function get_global_defaults() {
 	$defaults = array(
 		'item_total'   => 6,
 		'image_width'  => 485,
@@ -67,9 +67,9 @@ function get_setting_titles() {
  * @return array $settings
  * @since  0.1.1
  */
-function get_saved_settings( $set_default = false ) {
+function get_global_settings( $set_default = false ) {
 	$settings = get_option( 'sba_settings', [] );
-	$defaults = get_defaults();
+	$defaults = get_global_defaults();
 
 	// Use defaults when $set_default is true and defaults are available
 	if ( $set_default && ! empty( $defaults ) ) {
@@ -149,7 +149,7 @@ function register_settings() {
  */
 function add_settings() {
 	// Get the defaults
-	$fields = get_defaults();
+	$fields = get_global_defaults();
 
 	// Get the titles
 	$titles = get_setting_titles();
@@ -246,8 +246,9 @@ function image_height_callback() {
 /**
  * Outputs HTML for a text field setting
  *
- * @param array $args
- * @since 0.1.1
+ * @param  array $args
+ * @return void
+ * @since  0.1.1
  */
 function text_field_callback( $args ) {
 	// Can't output a field if we don't know which one
@@ -259,10 +260,10 @@ function text_field_callback( $args ) {
 	$units = ( ! empty( $args['units'] ) ) ? $args['units'] : '';
 
 	// Get saved settings
-	$settings = get_saved_settings();
+	$settings = get_global_settings();
 
 	// Get defaults
-	$defaults = get_defaults();
+	$defaults = get_global_defaults();
 
 	// Set value to an empty string if no setting saved
 	$value = isset( $settings[ $name ] ) ? $settings[ $name ] : '';
@@ -299,15 +300,16 @@ function text_field_callback( $args ) {
  */
 function sanitize_settings( $settings ) {
 	// Get the defaults
-	$fields = get_defaults();
+	$fields = get_global_defaults();
 
 	// Get the saved settings
-	$new_settings = get_saved_settings();
+	$new_settings = get_global_settings();
 
 	// Loop through each setting
 	foreach ( $fields as $field_name => $field_value ) {
 
-		// Construct a variable function to validate each input. Function name includes field name, i.e. validate_item_total
+		// Construct a variable function to validate each input. Function name
+		// includes field name, i.e. validate_item_total
 		$validator = __NAMESPACE__ . '\validate_' . $field_name;
 
 		// Validate the input. Pass the input and the field name to the validator
@@ -326,7 +328,8 @@ function sanitize_settings( $settings ) {
 
 			} elseif ( is_string( $field_value ) ) {
 
-				// Use sanitize_text_field() as sanitizer if setting default is a string
+				// Use sanitize_text_field() as sanitizer if setting default is
+				// a string
 				$sanitizer = 'sanitize_text_field';
 			}
 
@@ -364,7 +367,8 @@ function validate_item_total( $data = null, $label = '' ) {
 		$result     = false;
 
 	} elseif ( empty( absint( $data ) ) || is_float( $data + 0 ) || $data < 1 ) {
-		// Rejects non-numeric strings, zero, null, false, empty, floats, and negative numbers
+		// Rejects non-numeric strings, zero, null, false, empty, floats, and
+		// negative numbers
 		$result = false;
 
 		// translators: This is the error message for an invalid image dimension.
@@ -438,7 +442,8 @@ function validate_image_dimension( $data = null, $label = '' ) {
 		$result     = false;
 
 	} elseif ( empty( absint( $data ) ) || is_float( $data + 0 ) || $data < 1 ) {
-		// Rejects non-numeric strings, zero, null, false, empty, floats, and negative numbers
+		// Rejects non-numeric strings, zero, null, false, empty, floats, and
+		// negative numbers
 		$result = false;
 
 		// translators: This is the error message for an invalid image dimension.

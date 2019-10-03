@@ -2,8 +2,8 @@
 
 namespace SimpleBeforeAndAfter;
 
+use SimpleBeforeAndAfter\Settings;
 use SimpleBeforeAndAfter\Grid as Grid;
-use SimpleBeforeAndAfter\Settings as Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die( 'Nope!' );
@@ -47,11 +47,11 @@ class GridShortcode {
 	/**
 	 * Shortcode callback that returns Grid HTML
 	 *
-	 * @param array $atts
-	 * @param string $content
-	 * @param string $tag
+	 * @param  array  $atts
+	 * @param  string $content
+	 * @param  string $tag
 	 * @return string
-	 * @since 0.1.0
+	 * @since  0.1.0
 	 */
 	public function before_and_after_shortcode_output( $atts, $content = '', $tag ) {
 		// Don't add global defaults here. That's covered in Grid
