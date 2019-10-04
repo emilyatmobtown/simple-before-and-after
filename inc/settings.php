@@ -319,7 +319,6 @@ function sanitize_settings( $settings ) {
 		if ( ! $validated ) {
 			$new_settings[ $field_name ] = '';
 		} elseif ( isset( $settings[ $field_name ] ) ) {
-
 			// If the input is validated, choose a sanitizer
 			if ( is_int( $field_value ) ) {
 
@@ -349,7 +348,7 @@ function sanitize_settings( $settings ) {
  *
  * @param  mixed  $data  Data to be validated
  * @param  string $label Name of field being validated
- * @return bool
+ * @return bool   $result
  * @since  0.1.1
  */
 function validate_item_total( $data = null, $label = '' ) {
@@ -374,8 +373,8 @@ function validate_item_total( $data = null, $label = '' ) {
 		// translators: This is the error message for an invalid image dimension.
 		$message .= __( 'Invalid total. The default value will be used. Next time, please use a whole number greater than zero.', 'simple-before-and-after' );
 
-	} elseif ( $data > 50 ) {
-		// Rejects 9999 to ensure consistent hard crops
+	} elseif ( $data > 20 ) {
+		// Rejects a high total to avoid performance issues
 		$result = false;
 
 		// translators: This is the error message for an image dimension that is 9999.
@@ -383,7 +382,7 @@ function validate_item_total( $data = null, $label = '' ) {
 
 	}
 
-	if ( function_exists( 'add_settings_error' ) ) {
+	if ( is_admin() ) {
 		if ( ! $result && $show_error ) {
 			add_settings_error(
 				'sba_settings',
@@ -424,7 +423,7 @@ function validate_image_height( ...$params ) {
  *
  * @param  mixed  $data  Data to be validated
  * @param  string $label Name of field being validated
- * @return bool
+ * @return bool   $result
  * @since  0.1.1
  */
 function validate_image_dimension( $data = null, $label = '' ) {
@@ -499,7 +498,7 @@ function validate_after_label( ...$params ) {
  *
  * @param  mixed  $data  Data to be validated
  * @param  string $label Name of field being validated
- * @return bool
+ * @return bool   $result
  * @since 0.1.1
  */
 function validate_label( $data = null, $label = '' ) {
