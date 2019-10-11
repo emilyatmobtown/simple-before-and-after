@@ -2,7 +2,7 @@
 /**
  * Plugin Name:         Simple Before and After
  * Description:         Displays a simple grid that swaps Before and After images.
- * Version:             0.1.1
+ * Version:             0.1.2
  * Requires at least:   5.2
  * Requires PHP:        7.0
  * Author:              Emily Leffler Schulman, Mobtown Studios
@@ -22,21 +22,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Global constants
-define( 'SBA_VERSION', '0.1.0' );
+define( 'SBA_VERSION', '0.1.2' );
 define( 'SBA_URL', plugin_dir_url( __FILE__ ) );
 define( 'SBA_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SBA_INC', SBA_PATH . 'inc/' );
 
 // Include files
-require_once SBA_INC . 'functions/core.php';
-require_once SBA_INC . 'functions/utils.php';
+require_once SBA_INC . 'core.php';
+require_once SBA_INC . 'settings.php';
+// require_once SBA_INC . 'utils.php';
 
 // Activation/Deactivation
 register_activation_hook( __FILE__, '\SimpleBeforeAndAfter\Core\activate' );
 register_deactivation_hook( __FILE__, '\SimpleBeforeAndAfter\Core\deactivate' );
 
-// Bootstrap
+// Set up
 Core\setup();
+Settings\setup();
 
 // Load classes
 spl_autoload_register(
@@ -61,9 +63,6 @@ spl_autoload_register(
 		}
 	}
 );
-
-// Set Up Settings Page
-Settings::factory();
 
 // Set Up Before and After Post Type
 BeforeAndAfterPostType::factory();

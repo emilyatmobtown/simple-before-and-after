@@ -1,6 +1,6 @@
 {
     "name": "els/simple-before-and-after",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "type": "wordpress-plugin",
     "keywords": ["wordpress", "plugin", "before-and-after", "grid", "image swapper"],
     "description": "Displays a simple grid that swaps Before and After images.",
