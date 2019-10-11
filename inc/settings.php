@@ -25,6 +25,9 @@ function setup() {
  */
 function get_global_defaults() {
 	$defaults = array(
+		// IDs are in global defaults in order to be sanitized as a shortcode
+		// attribute
+		'ids'          => '',
 		'item_total'   => 6,
 		'image_width'  => 485,
 		'image_height' => 200,
@@ -167,6 +170,10 @@ function add_settings() {
 		if ( ! empty( $field_name ) ) {
 
 			switch ( $field_name ) {
+				// Skip fields that are not available as global settings
+				case 'ids':
+					break;
+
 				// Add text field settings with unique callbacks
 				case 'item_total':
 				case 'image_height':
@@ -311,9 +318,10 @@ function sanitize_settings( $settings ) {
 		// Construct a variable function to validate each input. Function name
 		// includes field name, i.e. validate_item_total
 		$validator = __NAMESPACE__ . '\validate_' . $field_name;
-
 		// Validate the input. Pass the input and the field name to the validator
-		$validated = call_user_func( $validator, $settings[ $field_name ], $field_name );
+		if ( is_callable( $validator ) ) {
+			$validated = call_user_func( $validator, $settings[ $field_name ], $field_name );
+		}
 
 		// If the input is not validated, set the new setting to an empty string
 		if ( ! $validated ) {
@@ -333,7 +341,7 @@ function sanitize_settings( $settings ) {
 			}
 
 			// Sanitize and save to new settings
-			if ( ! empty( $sanitizer ) ) {
+			if ( is_callable( $sanitizer ) ) {
 				$new_settings[ $field_name ] = call_user_func( $sanitizer, $settings[ $field_name ] );
 			}
 		}
@@ -341,6 +349,70 @@ function sanitize_settings( $settings ) {
 
 	// Return the new settings
 	return $new_settings;
+}
+
+/**
+ * Validates post IDs.
+ *
+ * @param  mixed  $data  Data to be validated
+ * @param  string $label Name of field being validated
+ * @return bool   $result
+ * @since  0.1.1
+ */
+function validate_ids( $data = null, $label = '' ) {
+	$result     = true;
+	$show_error = true;
+
+	// Add the name of the field being validated to the error message
+	$titles   = get_setting_titles();
+	$message  = '';
+	$message .= ( ! empty( $label ) && ! empty( $titles[ $label ] ) ) ? $titles[ $label ] . ': ' : '';
+
+	if ( empty( $data ) && '0' !== $data ) {
+		// Rejects empty data without an error message
+		$show_error = false;
+		$result     = false;
+
+	} elseif ( is_string( $data ) ) {
+		// Convert string to array
+		$ids = preg_replace( '/\s+/', '', $data );
+		$ids = explode( ',', $ids );
+
+		$is_valid = function( $value ) {
+			// Rejects non-numeric strings, zero, null, false, empty, floats, and
+			// negative numbers
+			if ( ( ! is_int( absint( $value ) ) || empty( absint( $value ) ) || $value < 1 ) ) {
+				return false;
+			}
+			return true;
+		};
+
+		// Map validation results to $results array
+		$results = array_map( $is_valid, $ids );
+	}
+
+	// Check for any invalid results in array check
+	if ( in_array( false, $results, true ) ) {
+		$result = false;
+		// translators: This is the error message for an invalid post ID.
+		$message .= __( 'Invalid ID.', 'simple-before-and-after' );
+	}
+
+	// Error message is generated for consistency and future-proofing through
+	// error messages are not used in shortcode implementation, which is where
+	// IDs can be passed
+	if ( is_admin() ) {
+		if ( ! $result && $show_error ) {
+			add_settings_error(
+				'sba_settings',
+				'item_total',
+				esc_html( $message ),
+				'error'
+			);
+		}
+	}
+
+	return $result;
 }
 
 /**

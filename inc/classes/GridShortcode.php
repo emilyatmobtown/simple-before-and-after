@@ -67,7 +67,6 @@ class GridShortcode {
 			$atts,
 			$tag
 		);
-
 		$args = Settings\sanitize_settings( $args );
 		$html = Grid::factory()->get_grid( $args );
 		return $html;

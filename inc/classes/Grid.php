@@ -21,15 +21,6 @@ class Grid {
 	protected static $grid_defaults;
 
 	/**
-	 * Holds the settings for the grid, which combine the grid's defaults and
-	 * locally set settings, i.e. shortcode attributes.
-	 *
-	 * @var $grid_defaults
-	 * @since 0.1.2
-	 */
-	protected static $grid_settings;
-
-	/**
 	 * Return singleton instance of class
 	 *
 	 * @return self
@@ -75,14 +66,17 @@ class Grid {
 	}
 
 	/**
-	 * Set settings for grid
+	 * Get settings for grid
 	 *
-	 * @since 0.1.1
+	 * @param  array $local_settings
+	 * @return array @$grid_settings
+	 * @since  0.1.2
 	 */
-	public function set_grid_settings( $local_settings = [] ) {
+	public function get_grid_settings( $local_settings = [] ) {
 		// Set the grid's settings to the grid's defaults, which came from the
 		// global custom and default settings
-		self::$grid_settings = self::$grid_defaults;
+		$grid_settings = [];
+		$grid_settings = self::$grid_defaults;
 
 		// If there are local settings
 		if ( ! empty( $local_settings ) ) {
@@ -97,8 +91,10 @@ class Grid {
 
 			// Set the grid's settings to the local settings. If empty, override
 			// with the grid's settings, which came from the grid's defaults
-			self::$grid_settings = wp_parse_args( $local_settings, self::$grid_settings );
+			$grid_settings = wp_parse_args( $local_settings, $grid_settings );
 		}
+
+		return $grid_settings;
 	}
 
 	/**
@@ -109,21 +105,18 @@ class Grid {
 	 * @since  0.1.1
 	 */
 	public function get_grid( $local_settings = [] ) {
-		// Pass the local settings to the grid's settings
-		self::set_grid_settings( $local_settings );
-
-		// Set $args to the grid's settings
-		$args = self::$grid_settings;
+		// Get the grid's settings, overriding globals with any local settings
+		$args = self::get_grid_settings( $local_settings );
 
 		// Set up query args
 		$query_args = array(
+			'orderby'                => 'rand',
 			'post_type'              => 'before_and_after',
 			'posts_per_page'         => $args['item_total'],
 			'post_status'            => 'publish',
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 		);
-
 		// Add query argument if specific post IDs were passed in
 		if ( ! empty( $args['ids'] ) ) {
 			// Strip white space from ids string and convert to array
