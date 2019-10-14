@@ -391,13 +391,6 @@ function validate_ids( $data = null, $label = '' ) {
 		$results = array_map( $is_valid, $ids );
 	}
 
-	// Check for any invalid results in array check
-	if ( in_array( false, $results, true ) ) {
-		$result = false;
-		// translators: This is the error message for an invalid post ID.
-		$message .= __( 'Invalid ID.', 'simple-before-and-after' );
-	}
-
 	// Error message is generated for consistency and future-proofing through
 	// error messages are not used in shortcode implementation, which is where
 	// IDs can be passed
