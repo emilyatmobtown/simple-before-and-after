@@ -105,8 +105,17 @@ class Grid {
 	 * @since  0.1.1
 	 */
 	public function get_grid( $local_settings = [] ) {
+		global $_wp_additional_image_sizes;
+
 		// Get the grid's settings, overriding globals with any local settings
 		$args = self::get_grid_settings( $local_settings );
+
+		// Plan to use custom image size unless shortcode width and height don't
+		// match global settings (which generate custom image size)
+		$image_size = 'sba-grid-image';
+		if ( $args['image_width'] !== $_wp_additional_image_sizes['sba-grid-image']['width'] || $args['image_height'] !== $_wp_additional_image_sizes['sba-grid-image']['height'] ) {
+			$image_size = array( $args['image_width'], $args['image_height'] );
+		}
 
 		// Set up query args
 		$query_args = array(
@@ -157,7 +166,7 @@ class Grid {
 
 					<?php } ?>
 
-					<?php echo wp_get_attachment_image( $before_id, 'sba-grid-image', false, array( 'class' => 'sba-before-img' ) ); ?>
+					<?php echo wp_get_attachment_image( $before_id, $image_size, false, array( 'class' => 'sba-before-img' ) ); ?>
 
 					<?php if ( ! empty( $after_label ) ) { ?>
 
@@ -165,7 +174,7 @@ class Grid {
 
 					<?php } ?>
 
-					<?php echo wp_get_attachment_image( $after_id, 'sba-grid-image', false, array( 'class' => 'sba-after-img inactive' ) ); ?>
+					<?php echo wp_get_attachment_image( $after_id, $image_size, false, array( 'class' => 'sba-after-img inactive' ) ); ?>
 
 						</div><!-- .sba-grid-item -->
 					</div><!-- .sba-grid-item-wrapper -->
