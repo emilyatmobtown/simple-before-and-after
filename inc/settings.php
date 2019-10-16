@@ -170,8 +170,20 @@ function add_settings() {
 		if ( ! empty( $field_name ) ) {
 
 			switch ( $field_name ) {
-				// Skip fields that are not available as global settings
+				// Add settings for fields that are not available as global settings
 				case 'ids':
+					add_settings_field(
+						$field_name,
+						'',
+						__NAMESPACE__ . '\text_field_callback',
+						'simple-before-and-after',
+						'sba_setting_section_1',
+						array(
+							'class'  => 'hidden',
+							'name'   => $field_name,
+							'hidden' => true,
+						)
+					);
 					break;
 
 				// Add text field settings with unique callbacks
@@ -254,7 +266,6 @@ function image_height_callback() {
  * Outputs HTML for a text field setting
  *
  * @param  array $args
- * @return void
  * @since  0.1.1
  */
 function text_field_callback( $args ) {
@@ -263,8 +274,9 @@ function text_field_callback( $args ) {
 		return;
 	}
 
-	$name  = ( ! empty( $args['name'] ) ) ? $args['name'] : '';
-	$units = ( ! empty( $args['units'] ) ) ? $args['units'] : '';
+	$name       = ( ! empty( $args['name'] ) ) ? $args['name'] : '';
+	$units      = ( ! empty( $args['units'] ) ) ? $args['units'] : '';
+	$input_type = ( ! empty( $args['hidden'] ) ) ? 'hidden' : 'text';
 
 	// Get saved settings
 	$settings = get_global_settings();
@@ -284,7 +296,7 @@ function text_field_callback( $args ) {
 	// Output HTML
 	?>
 
-	<input type="text" id="sba_<?php echo esc_attr( $name ); ?>" name="sba_settings[<?php echo esc_attr( $name ); ?>]" class="sba_text_field sba_<?php echo esc_attr( $name ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
+	<input type="<?php echo esc_attr( $input_type ); ?>" id="sba_<?php echo esc_attr( $name ); ?>" name="sba_settings[<?php echo esc_attr( $name ); ?>]" class="sba_text_field sba_<?php echo esc_attr( $name ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" value="<?php echo esc_attr( $value ); ?>">
 
 	<?php
 
@@ -391,7 +403,7 @@ function validate_ids( $data = null, $label = '' ) {
 		$results = array_map( $is_valid, $ids );
 	}
 
-	// Error message is generated for consistency and future-proofing through
+	// Error message is generated for consistency and future-proofing though
 	// error messages are not used in shortcode implementation, which is where
 	// IDs can be passed
 	if ( is_admin() ) {

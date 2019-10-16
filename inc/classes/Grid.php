@@ -124,56 +124,64 @@ class Grid {
 			$query_args['post__in'] = explode( ',', $ids );
 		}
 
-		$html     = '';
 		$ba_query = new WP_Query( $query_args );
 
 		if ( $ba_query->have_posts() ) {
-			$html .= '<div class="sba-grid">';
+			ob_start();
+			?>
 
+			<div class="sba-grid">
+
+			<?php
 			while ( $ba_query->have_posts() ) {
 				$ba_query->the_post();
 
 				$post_id      = $ba_query->post->ID;
 				$before_url   = get_post_meta( $post_id, 'sba_before_img', true );
 				$after_url    = get_post_meta( $post_id, 'sba_after_img', true );
+				$before_id    = attachment_url_to_postid( $before_url );
+				$after_id     = attachment_url_to_postid( $after_url );
 				$before_label = $args['before_label'];
 				$after_label  = $args['after_label'];
 
 				// Must have both Before and After images to display
 				if ( ! empty( $before_url ) && ! empty( $after_url ) ) {
-					$html .= '<div class="sba-grid-item-wrapper">';
-					$html .= '<div class="sba-grid-item">';
+					?>
 
-					$before_id = attachment_url_to_postid( $before_url );
+					<div class="sba-grid-item-wrapper">
+						<div class="sba-grid-item">
 
-					if ( ! empty( $before_label ) ) {
-						$html .= '<span class="sba-img-caption">';
-						$html .= esc_attr( $before_label );
-						$html .= '</span>';
-					}
+					<?php if ( ! empty( $before_label ) ) { ?>
 
-					$html .= wp_get_attachment_image( $before_id, 'sba-grid-image', false, array( 'class' => 'sba-before-img' ) );
+							<span class="sba-img-caption"><?php echo esc_attr( $before_label ); ?></span>
 
-					$after_id = attachment_url_to_postid( $after_url );
+					<?php } ?>
 
-					if ( ! empty( $after_label ) ) {
-						$html .= '<span class="sba-img-caption inactive">';
-						$html .= esc_attr( $after_label );
-						$html .= '</span>';
-					}
+					<?php echo wp_get_attachment_image( $before_id, 'sba-grid-image', false, array( 'class' => 'sba-before-img' ) ); ?>
 
-					$html .= wp_get_attachment_image( $after_id, 'sba-grid-image', false, array( 'class' => 'sba-after-img inactive' ) );
+					<?php if ( ! empty( $after_label ) ) { ?>
 
-					$html .= '</div>'; // .sba-grid-item
-					$html .= '</div>'; // .sba-grid-item-wrapper
+							<span class="sba-img-caption inactive"><?php echo esc_attr( $after_label ); ?></span>
+
+					<?php } ?>
+
+					<?php echo wp_get_attachment_image( $after_id, 'sba-grid-image', false, array( 'class' => 'sba-after-img inactive' ) ); ?>
+
+						</div><!-- .sba-grid-item -->
+					</div><!-- .sba-grid-item-wrapper -->
+					<?php
 				}
 			}
+			?>
 
-			$html .= '</div>'; // .sba-grid-wrapper
+		</div><!-- .sba-grid -->
+
+			<?php
 		}
 
+		$output = ob_get_clean();
 		wp_reset_postdata();
 
-		return $html;
+		return $output;
 	}
 }
